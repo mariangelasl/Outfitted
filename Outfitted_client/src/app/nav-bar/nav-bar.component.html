@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand bg-success sticky-top" aria-label="Barra de navegacion">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" [routerLink]="['inicio']">Outfitted</a> <!--Como imagen, una tipografia-->
+  
+
+    <div class="d-flex justify-content-center align-items-center" id="navitems">
+
+      <ul class="navbar-nav me-auto">
+
+        <!--links iniciales-->
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['inicio']" *ngIf="!isLoggedIn()">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['funcionamiento']" *ngIf="!isLoggedIn()">¿Cómo funciona?</a>
+        </li>
+        
+        <!--Se muestra si el usuario ha hecho log in-->
+
+        <li class="nav-item">
+          <!--lleva a la pagina con estadisticas y el calendario-->
+          <a class="nav-link" [routerLink]="['welcome']" *ngIf="isLoggedIn()">Calendario</a>
+        </li>
+        <li class="nav-item">
+          <!--lleva a la lista de armarios de ese usuario-->
+          <a class="nav-link" [routerLink]="['closets-list']" *ngIf="isLoggedIn()">Mis armarios</a>
+        </li>
+        <li class="nav-item">
+          <!--abre el modal para introducir el nombre del nuevo armario-->
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#nuevoClosetModal" *ngIf="isLoggedIn()">Crear armario</a>
+        </li>
+      </ul>
+
+      <!--botones de login, registro y logout-->
+
+      <div class="d-lg-flex col-6 justify-content-lg-end me-2">
+          <button type="button" class="btn btn-outline-primary me-2 " [routerLink]="['registro']" *ngIf="!isLoggedIn()">Registrarse</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['login']" *ngIf="!isLoggedIn()">Iniciar sesión</button>
+
+          <!--Se muestra si el usuario ha hecho login-->
+          <button type="button" class="btn btn-primary" *ngIf="isLoggedIn()" (click)="logout()">Cerrar sesión</button>
+          
+      </div>
+      
+    </div>
+  </div>
+</nav>
+
+
+<div class="modal fade" id="nuevoClosetModal" tabindex="-1" aria-labelledby="nuevoClosetLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+          <h5 class="modal-title" id="nuevoClosetLabel">Crear nuevo armario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+          <input type="text" class="form-control" placeholder="Nombre del armario" [(ngModel)]="nombreCloset">
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="crearCloset()">Crear</button>
+        </div>
+      
+      </div>
+  </div>
+</div>

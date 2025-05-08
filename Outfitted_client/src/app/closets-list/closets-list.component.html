@@ -1,0 +1,73 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Armarios de {{ nombreUsuario }}</h2>
+  
+    <div *ngIf="closets.length==0">
+        <p class="mb-4 text-center">Aun no tienes armarios</p>
+    </div>   
+
+    <!--si tiene algun closet, muestro lista y filtros-->
+    <div *ngIf="closets.length>0" class="row g-4">
+
+      <!--filtro para buscar armario por nombre-->
+      <div class="row mt-3 justify-content-end">
+
+        <div class="col text-end">
+          <h3>Filtrado por:{{closetFilter}}</h3>
+          <input type="text" [(ngModel)] = "closetFilter" placeholder="Nombre del armario" aria-label="filtrar por nombre del armario">
+        </div>
+        
+
+      </div>
+      
+
+      <!--Crear nuevo armario -->
+      <!--Abre un modal para introducir el nombre del nuevo armario-->
+      <div class="col-6 col-sm-4 col-md-3 text-center">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#nuevoClosetModal" class="text-decoration-none text-dark">
+            <img src="/icons/nuevo.svg" alt="Nuevo armario" width="80">
+            <div>Nuevo armario</div>
+        </a>
+      </div>
+  
+      <!-- Listado de armarios existentes -->
+      <!--Se filtran por nombre-->
+      <div *ngFor="let closet of closets  | closetListFilter: closetFilter" class="col-6 col-sm-4 col-md-3 text-center">
+
+        <!--al hacer clic te lleva al 'interior' del closet seleccionado-->
+        <a [routerLink]="['/closet', closet.id]" class="text-decoration-none text-dark">
+            <img src="/icons/closet-icon.svg" alt="Closet" width="80">
+            <div>
+            {{ closet.nombre }}
+            <span *ngIf="closet.compartido" class="badge bg-info text-dark ms-2">
+              <i class="bi bi-person-add"></i>Compartido
+            </span>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- modal para crear closet -->
+
+  <div class="modal fade" id="nuevoClosetModal" tabindex="-1" aria-labelledby="nuevoClosetLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="nuevoClosetLabel">Crear nuevo armario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+            <input type="text" class="form-control" placeholder="Nombre del armario" [(ngModel)]="nombreCloset">
+        </div>
+    
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="crearCloset()">Crear</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>

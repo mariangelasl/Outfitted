@@ -1,0 +1,77 @@
+<!--link para volver al listado-->
+
+<a [routerLink]="['/closet', idCloset]" class="btn btn-link">&larr;Volver</a>
+
+<h3 class="fill-remaining-space mt-3">Crear nueva prenda</h3>
+
+<div class="container mt-4">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data"> 
+
+    <div class="form-group mb-3">
+        <label for="imagen" class="form-label">Sube la imagen de tu prenda</label>
+        <input class="form-control" type="file" id="imagen" aria-label="Sube la imagen de tu prenda" required (change)="archivar($event)">
+    </div>
+
+    <span  *ngIf="this.myForm.get('imagen')?.errors?.['required']">
+      Debe subir una imagen
+    </span>
+
+    <div class="form-group mb-3">
+        <label for="color" class="form-label">Color:</label>
+        <input type="text" class="form-control" id="color" placeholder="escribe un color" formControlName="color" aria-label="Elige el color de tu prenda" required>
+    </div>
+
+    <span  *ngIf="this.myForm.get('color')?.errors?.['required']">
+      Debe rellenar este campo
+    </span>
+
+    <div class="form-group mb-3">
+      <label for="categoria_id" class="form-label">Categoría:</label>
+      <select class="form-select" formControlName="categoria_id" id="categoria_id" aria-label="Lista de categorias" required>
+        <option *ngFor="let categoria of categorias" [value]="categoria.id"> 
+            {{categoria.nombre}}
+        </option>
+      </select>
+    </div>
+
+    <span  *ngIf="this.myForm.get('categoria_id')?.errors?.['required']">
+      Debe seleccionar una opcion
+    </span>
+
+    <div class="form-group mb-3">
+      <label for="temporada_id">Temporada:</label>
+      <select class="form-select" formControlName="temporada_id" id="temporada_id" aria-label="Lista de estaciones del año" required>
+        <option *ngFor="let temporada of temporadas" [value]="temporada.id"> 
+            {{temporada.nombre}}
+        </option>
+        </select>
+    </div>
+
+    <span  *ngIf="this.myForm.get('temporada_id')?.errors?.['required']">
+      Debe seleccionar una opcion
+    </span>
+
+    <div class="form-group mb-3">
+      <label for="estilo_id">Estilo:</label>
+        <select class="form-select" formControlName="estilo_id" id="estilo_id" aria-label="Lista de estilos para la prenda" required>
+           <option *ngFor="let estilo of estilos" [value]="estilo.id"> 
+              {{estilo.nombre}}
+            </option>
+        </select>
+    </div>
+    
+    <span  *ngIf="this.myForm.get('estilo_id')?.errors?.['required']">
+      Debe seleccionar una opcion
+    </span>
+
+    <button type="submit" class="btn btn-primary" id="prenda_create">Crear</button>
+ </form>
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+  {{ errorMessage }}
+</div>
+
+
+
+

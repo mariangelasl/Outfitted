@@ -1,0 +1,130 @@
+<div class="panel panel-primary">
+
+  <div *ngIf="outfits.length == 0">
+   <p class="text-center">Aún no hay outfits en este armario</p>
+  </div>
+
+  <!--filtro para buscar outfit por nombre-->
+  <div class="row mb-3 mt-2" *ngIf="outfits.length>0">
+
+    <div class="col text-end">
+      <h3>Filtrado por:{{outfitFilter}}</h3>
+      <input type="text" [(ngModel)] = "outfitFilter" placeholder="Nombre del outfit" aria-label="filtrar por nombre del outfit">
+    </div>
+  </div>
+
+  <div *ngIf="outfits.length>0" class="row row-cols-1 row-cols-md-3 g-3">
+
+    <div *ngFor="let outfit of outfits | outfitListFilter: outfitFilter" class="col">
+    
+        <div class="card h-100">
+
+            <!--cabecera de la tarjeta. Incluye el nombre del outift y los botones para editarlo o eliminarlo-->
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <strong>{{ outfit.nombre }}</strong>
+              
+              <div>
+
+                <!-- Botón para añadir el outfit al calendario de outfits -->
+                <!--abre un modal para indicar las fechas de uso-->
+                <button class="btn btn-outline-info btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalCalendario"
+                        (click)="abrirModalFechas(outfit)" title="agregar outfit a la planificacion">
+                <i class="bi bi-calendar"></i>
+                </button>
+
+                <!--lleva a la lista de prendas del closet, donde se creo el outfit-->
+                <button class="btn btn-outline-warning btn-sm me-1"
+                      [routerLink]="['/closet', outfit.closet_id]" 
+                      [queryParams]="{ vista:'prendas', editarOutfitId: outfit.id }"
+                      title="editar outfit"> <!--le paso el id del outfit a editar-->
+                <i class="bi bi-pencil"></i>
+                </button>
+                
+                <!--muestra un modal para confirmar la eliminacion-->
+                <button class="btn btn-outline-danger btn-sm"
+                        btn-sm data-bs-toggle="modal" data-bs-target="#eliminarOutfitModal"
+                        (click)="abrirModal(outfit.id)"
+                        title="eliminar outfit">
+                <i class="bi bi-trash"></i>
+                </button>
+            
+              </div>
+
+            </div> <!--fin cabecera-->   
+                
+            <!--en el cuerpo de la tarjeta se mostraran las imagenes de las prendas que conforman el outfit-->
+            <div class="card-body">
+              <div class="d-flex flex-wrap justify-content-start gap-2">
+                <img *ngFor="let prenda of outfit.prendas"
+                     [src]="prenda.imagen_url"
+                     class="img-thumbnail"
+                     style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+            </div>
+
+        </div>
+    </div>  
+  </div>
+</div>
+
+<!--modal para confirmar la eliminacion-->
+<div class="modal fade" id="eliminarOutfitModal" tabindex="-1" aria-labelledby="eliminarOutfitLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarOutfitLabel">Eliminar outfit</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>¿Estás seguro de que quieres eliminar este outfit?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-danger" (click)="eliminar()" data-bs-dismiss="modal">Eliminar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--modal para indicar las fechas de uso del outfit-->
+
+<div class="modal fade" id="modalCalendario" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Planificar uso del outfit</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p><strong>Outfit:</strong> {{ outfitSeleccionado.nombre }}</p>
+
+        <label for="fechaInicio">Desde:</label>
+        <input type="date" class="form-control" [(ngModel)]="fechaInicio">
+
+        <label for="fechaFin" class="mt-2">Hasta:</label>
+        <input type="date" class="form-control" [(ngModel)]="fechaFin">
+
+        <!--para errores en la validacion de fechas-->
+        <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+          {{ errorMessage }}
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" (click)="agendarOutfit()" data-bs-dismiss="modal">
+          Guardar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

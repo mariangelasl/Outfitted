@@ -1,0 +1,169 @@
+<div class="panel panel-primary">
+  
+  <!--filtros para las prendas-->
+  <div class="row mb-3 mt-2" *ngIf="prendas.length > 0">
+
+    <div class="col-md-2 text-start"> <!--lo mas a la izquierda-->
+      <h3>Filtrar por: </h3>
+    </div>
+    
+    <div class="col-md-2">
+      <input type="text" [(ngModel)] = "colorFilter" placeholder="color de la prenda">
+    </div>
+
+    <div class="col-md-2">
+      <select class="form-select" aria-label="Lista de categorias" [(ngModel)] = "categoriaFilter">
+        <option selected [value]="">Categoría</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria.id"> 
+            {{categoria.nombre}}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      
+      <select class="form-select" aria-label="Lista de estilos" [(ngModel)] = "estiloFilter">
+        <option selected [value]="">Estilo</option>
+        <option *ngFor="let estilo of estilos" [value]="estilo.id"> 
+            {{estilo.nombre}}
+        </option>
+      </select>
+    
+    </div>
+
+    <div class="col-md-2">
+      <select class="form-select" aria-label="Lista de estaciones del año" [(ngModel)] = "temporadaFilter">
+        <option selected [value]="0">Temporada</option>
+        <option *ngFor="let temporada of temporadas" [value]="temporada.id"> 
+            {{temporada.nombre}}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <button type="button" (click)="limpiarFiltros()">Limpiar filtros</button>
+    </div>
+
+
+  </div> <!--fin filtros-->
+
+  <!--botones-->
+  <div class="row mb-3">
+    <div class="col text-end">
+
+      <!--agregar prenda-->
+      <button type="button" [routerLink]="['/closet', idCloset, 'prenda-create']" class="btn btn-success me-2">
+        <i class="bi bi-plus-circle"></i> Agregar prenda
+      </button>
+      
+      <!--crear outfit o actualizar dependiendo de si venimos del boton de edicion del outfit list-->
+      <!--abre un modal para indicar el nombre del outfit-->
+      <button *ngIf="prendas.length > 0 && haySeleccionadas()"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#modalCrearOutfit">
+        <i class="bi bi-stars"></i>
+        {{ editar ? 'Actualizar outfit' : 'Crear outfit' }}
+      </button>
+    </div>
+  </div>    
+
+  <div *ngIf="prendas.length > 0" class="alert alert-info">
+    Selecciona varias prendas para combinarlas en un nuevo outfit
+  </div>
+
+  <div class="row">
+    <div *ngIf="prendas.length==0" class="col">
+      <p class="text-center">Aun no tienes prendas en este armario</p>
+    </div>
+
+    <!--muestro las prendas y sus caracteristicas principales-->
+    <div *ngIf="prendas.length>0" class="row row-cols-1 row-cols-md-3 g-2">
+          <div *ngFor="let prenda of prendas | colorFilter: colorFilter | categoriaFilter: categoriaFilter | estiloFilter: estiloFilter | temporadaFilter: temporadaFilter" class="col">
+            <div class="card h-100">
+                <div class="row g-0">
+                    <div class="col-md-5 d-flex flex-column align-items-center justify-content-between p-2">
+                      <img [src]="prenda.imagen_url" class="img-fluid rounded" alt="imagen de la prenda">
+
+                      <!--botones para editar o eliminar la prenda-->
+                      <div class="btn-group mt-2" role="group">
+                        <button [routerLink]="['/prenda-edit', prenda.id]" class="btn btn-outline-warning" title="editar prenda">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+
+                        <!--abre un modal para confirmar la eliminacion-->
+                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarPrendaModal"
+                        (click)="abrirModal(prenda.id)" title="eliminar prenda">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="col-md-7 p-2">  <!--datos de la prenda-->
+                      <p><i class="bi bi-palette"></i> {{ prenda.color }}</p>
+                      <p><i class="bi bi-bag"></i> {{ prenda.categoria.nombre }}</p>
+                      <p><i class="bi bi-cloud-sun"></i> {{ prenda.temporada.nombre }}</p>
+                      <p><i class="bi bi-tag"></i> {{ prenda.estilo.nombre }}</p>
+                    </div>
+                </div>
+
+                <div class="card-footer text-end"> <!--checkbox para seleccionar la prenda si quiero incluirla en un outfit-->
+                  <input type="checkbox" [value]="prenda.id" (change)="seleccionada(prenda.id, $event)"
+                  [checked]="prendasOutfit.includes(prenda.id)">
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!--modal para confirmar que se quiere eliminar la prenda-->
+<div class="modal fade" id="eliminarPrendaModal" tabindex="-1" aria-hidden="true" aria-labelledby="eliminarPrendaLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarPrendaLabel">Eliminar prenda</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>¿Estás seguro de que quieres eliminar esta prenda?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-danger" (click)="eliminarPrenda()" data-bs-dismiss="modal">Eliminar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--modal para crear o actualizar el nombre del outfit-->
+<div class="modal fade" id="modalCrearOutfit" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <!--el titulo depende de si venimos de editar el outfit o si queremos crear outfit-->
+        <h5 class="modal-title">{{ editar ? 'Actualizar outfit' : 'Crear outfit' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <label for="nombreOutfit" class="form-label">Nombre del outfit:</label>
+        <input type="text" [(ngModel)]="nombreOutfit" class="form-control" id="nombreOutfit" placeholder="Ej: día de picnic">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary"
+        (click)="editar ? actualizarOutfit() : crearOutfit()" data-bs-dismiss="modal">
+        Enviar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

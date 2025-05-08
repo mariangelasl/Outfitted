@@ -1,0 +1,32 @@
+<div class="container mt-5">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)">
+      
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo</label>
+        <input type="email" id="email" formControlName="email" class="form-control" required/>
+      </div>
+
+      <span  *ngIf="this.myForm.get('email')?.errors?.['required']">
+        Debe rellenar este campo
+      </span>
+  
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" id="password" formControlName="password" class="form-control" required/>
+      </div>
+
+      <span  *ngIf="this.myForm.get('password')?.errors?.['required']">
+        Debe rellenar este campo
+      </span>
+  
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary" [disabled]="myForm.invalid">
+          Iniciar sesión
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>

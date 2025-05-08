@@ -1,0 +1,12 @@
+.carousel-item {
+    min-height: 400px; /* altura estable para que todas las slides tengan espacio */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .carousel-inner {
+    width: 100%;
+    height: 100%;
+  }
+  
+  

@@ -1,0 +1,133 @@
+<div class="container mt-4">
+
+    <!--enlace para volver a la lista de closets-->
+    <a [routerLink]="['/closets-list']" class="btn btn-link">&larr;Volver</a>
+  
+    <!-- Encabezado del closet -->
+    <div class="d-flex align-items-center mb-3">
+      <img src="/icons/open-closet.svg" alt="Closet Abierto" width="60" class="me-3">
+      <h3 class="mb-0">{{ nombreCloset }}</h3>
+  
+      <!--botones para editar o eliminar el closet-->
+      <div class="ms-auto">
+
+
+        <!--boton para compartir armario-->
+        <!--abre un modal para indicar el correo de la persona invitada-->
+
+        <button class="btn btn-outline-info btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#compartirClosetModal"
+              (click)="abrirModalCompartir()" title="compartir armario">
+        <i class="bi bi-person-add"></i>
+        </button>
+
+        <!--abre un modal para editar el nombre del closet-->
+        <button class="btn btn-outline-warning btn-sm me-2" 
+        data-bs-toggle="modal" data-bs-target="#editarClosetModal" (click)="mostrarNombre()" aria-label="editar closet" title="editar armario">
+        <i class="bi bi-pencil"></i>
+        </button>
+
+        <!--abre un modal para pedir confirmacion para eliminar-->
+        <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarClosetModal" aria-label="eliminar closet" title="eliminar armario">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Info sobre cantidad prendas y outfits dentro del closet-->
+    <p class="text-muted">({{ cantidadPrendas }} prendas - {{ cantidadOutfits }} outfits)</p>
+  
+    <!-- Tabs para cambiar entre ver todas las prendas o ver todos los outfits -->
+
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="vistaActual === 'prendas'" (click)="vistaActual = 'prendas'">Ver prendas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="vistaActual === 'outfits'" (click)="vistaActual = 'outfits'">Ver outfits</a>
+      </li>
+    </ul>
+  
+    <!-- Se visualiza el componente segun la tab seleccionada -->
+    <div class="mt-4">
+      <app-prenda-list *ngIf="vistaActual === 'prendas'" [idCloset]="idCloset"></app-prenda-list>
+      <app-outfit-list *ngIf="vistaActual === 'outfits'" [idCloset]="idCloset"></app-outfit-list>
+    </div>
+    
+  </div>
+  
+  <!-- Modal para editar closet -->
+<div class="modal fade" id="editarClosetModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Editar nombre del armario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="text" class="form-control" [(ngModel)]="nuevoNombre" placeholder="Nuevo nombre">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" (click)="editarCloset()" data-bs-dismiss="modal">Guardar cambios</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="eliminarClosetModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar armario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>¿Estás seguro de que quieres eliminar este armario?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-danger" (click)="eliminarCloset()" data-bs-dismiss="modal">Eliminar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal para compartir closet -->
+<div class="modal fade" id="compartirClosetModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Compartir armario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="text" class="form-control" [(ngModel)]="invitado" placeholder="Email del usuario invitado">
+      </div>
+
+      <!--para indicar si se pudo o no compartir-->
+
+      <div *ngIf="mensajeError" class="alert alert-danger mt-2">{{ mensajeError }}</div>
+      <div *ngIf="mensajeExito" class="alert alert-success mt-2">{{ mensajeExito }}</div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" (click)="compartirCloset()" data-bs-dismiss="modal">Compartir</button>
+      </div>
+
+    </div>
+  </div>
+</div>

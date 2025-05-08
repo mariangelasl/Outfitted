@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)">
+    
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input type="text" id="name" formControlName="name" class="form-control" required/>
+    </div>
+
+    <span *ngIf="this.myForm.get('nombre')?.errors?.['required']">
+      El nombre no puede quedar vacío
+    </span>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo</label>
+      <input type="email" id="email" formControlName="email" class="form-control" required/>
+    </div>
+
+    <span  *ngIf="this.myForm.get('email')?.errors?.['required']">
+      Debe rellenar este campo
+    </span>
+    <span *ngIf="this.myForm.get('email')?.errors?.['email']">
+      El correo no es válido
+    </span>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input type="password" id="password" formControlName="password" class="form-control" required placeholder="escribe al menos 8 caracteres"/>
+    </div>
+
+    <span *ngIf="this.myForm.get('email')?.errors?.['required']">
+      Debe rellenar este campo
+    </span>
+    <span *ngIf="this.myForm.get('password')?.errors?.['minlength']">
+      La contraseña debe tener mínimo 8 caracteres
+    </span>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <a [routerLink]="['/login']" class="text-decoration-underline">¿Ya tienes una cuenta?</a>
+      <button type="submit" class="btn btn-primary">Registrarse</button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+  {{ errorMessage }}
+</div>

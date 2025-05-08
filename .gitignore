@@ -1,0 +1,13 @@
+# Angular
+/outfitted_client/node_modules/
+/outfitted_client/dist/
+
+# Laravel
+/outfitted_server/vendor/
+/outfitted_server/node_modules/
+/outfitted_server/storage/
+
+
+# Otros
+.DS_Store
+*.log
