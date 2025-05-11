@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  CalendarEvent,
-  CalendarView
-} from 'angular-calendar';
+import {CalendarEvent, CalendarView} from 'angular-calendar';
 import { addMonths } from 'date-fns';
 import { Router } from '@angular/router';
 import { DatosCalendariosService } from '../services/calendario/datos-calendarios.service';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+
+registerLocaleData(localeEs);
 
 @Component({
   selector: 'app-calendario',
@@ -15,6 +17,7 @@ import { DatosCalendariosService } from '../services/calendario/datos-calendario
 })
 
 export class CalendarioComponent implements OnInit {
+  
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
@@ -36,9 +39,10 @@ export class CalendarioComponent implements OnInit {
     }
 
     //cargo los outfits
-    this.cargarEventos();
+    this.cargarEventos(); //mes actual
   }
 
+  //carga y actualiza los eventos del mes que se esta mostrando
   cargarEventos(): void {
 
     //obtengo el mes y año
@@ -49,8 +53,9 @@ export class CalendarioComponent implements OnInit {
     this.calendarioService.getEventosMes(this.usuarioId, año, mes).subscribe(resp => {
       if (resp.body) {
         this.events = resp.body.map((evento: any) => ({
-          start: new Date(evento.fecha_inicio),
-          end: new Date(evento.fecha_fin),
+          id: evento.id,
+          start: new Date(evento.fechaInicio),
+          end: new Date(evento.fechaFin),
           title: evento.outfit.nombre,
           meta: { outfitId: evento.outfit.id }
         }));
@@ -69,6 +74,11 @@ export class CalendarioComponent implements OnInit {
   cambiarMes(direccion: 'anterior' | 'siguiente'): void {
     const cambio = direccion === 'anterior' ? -1 : 1;
     this.viewDate = addMonths(this.viewDate, cambio);
+    this.cargarEventos();
+  }
+
+  onViewDateChange(date: any): void {
+    this.viewDate = date;
     this.cargarEventos();
   }
 }

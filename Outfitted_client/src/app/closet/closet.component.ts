@@ -3,6 +3,7 @@ import { DatosClosetsService } from '../services/closet/datos-closets.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatosPrendasService } from '../services/prenda/datos-prendas.service';
 import { DatosOutfitsService } from '../services/outfit/datos-outfits.service';
+import { CompartidoService } from '../services/compartido/compartido.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class ClosetComponent implements OnInit{
     private closetService: DatosClosetsService,
     private prendaService : DatosPrendasService,
     private outfitService : DatosOutfitsService,
+    private compartidoService: CompartidoService,
   ) {}
 
 

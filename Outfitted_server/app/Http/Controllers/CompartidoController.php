@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Compartido;
+use App\Models\Closet;
+use App\Models\User;
 
 class CompartidoController extends Controller
 {
@@ -18,7 +20,7 @@ class CompartidoController extends Controller
 
         //les agrego la distincion de compartidos
 
-        foreach($closet as $closets){
+        foreach($closets as $closet){
             $closet->compartido=true;
         }
          return $closets;
@@ -51,7 +53,7 @@ class CompartidoController extends Controller
         }
     
         $yaCompartido = Compartido::where('closet_id', $validated['closet_id'])
-            ->where('user_id', $usuarioInvitado->id)
+            ->where('user_id', $invitado->id)
             ->exists();
     
         if ($yaCompartido) {

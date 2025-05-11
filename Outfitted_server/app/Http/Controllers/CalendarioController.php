@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Calendario;
+use App\Models\Closet;
+use App\Models\Outfit;
 use Carbon\Carbon;
 
 class CalendarioController extends Controller
@@ -44,8 +46,9 @@ class CalendarioController extends Controller
     public function crearEvento(Request $request){
     $validated = $request->validate([
         'outfit_id' => 'required|exists:outfits,id',
-        'fecha_inicio' => 'required|date|after_or_equal:today',
-        'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+        'fechaInicio' => 'required|date|after_or_equal:today',
+        'fechaFin' => 'required|date|after_or_equal:fechaInicio',
+        'user_id'=> 'required|exists:users,id' 
     ]);
 
     $evento = Calendario::create($validated);
@@ -79,7 +82,7 @@ public function eventosMes($id, $anio, $mes)
 
     $eventos = Calendario::with('outfit')
         ->whereIn('outfit_id', $outfitIds)
-        ->whereBetween('fecha_inicio', [$inicio, $fin])
+        ->whereBetween('fechaInicio', [$inicio, $fin])
         ->get();
 
     return $eventos;

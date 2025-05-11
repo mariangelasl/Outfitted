@@ -34,9 +34,9 @@ export class LoginComponent implements OnInit{
     
     if(this.myForm.valid){ //si los datos cumplen con los requisitos de validacion
 
-      this.authService.esUsuario(this.email).subscribe({ //confirmo que el usuario exista
+      this.authService.esUsuario(datos.email).subscribe({ //confirmo que el usuario exista
 
-        next: (res) =>{ //si el usuario existe intento hacer login
+        next: ()=>{ //si el usuario existe intento hacer login
 
           this.authService.login(datos).subscribe({
         
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit{
       });
     
     } else{
-      this.errorMessage = "Datos invalidos"
+      this.errorMessage = "Datos invalidos";
     }
   }
 }

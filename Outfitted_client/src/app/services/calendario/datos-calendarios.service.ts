@@ -35,7 +35,7 @@ export class DatosCalendariosService {
     return this._http.delete<ICalendario>(environment.apiUrl + 'api/calendario/' +id,  { observe: 'response' });
   }
 
-  getEventosMes(usuarioId:number, anyo: number, mes: number): Observable<HttpResponse<any[]>> {
+  getEventosMes(usuarioId:number, mes: number, anyo: number): Observable<HttpResponse<any[]>> {
     
     return this._http.get<ICalendario[]>(environment.apiUrl + 'api/calendario/usuario/' + usuarioId + '/' + mes + '/' + anyo,    { observe: 'response' });
   

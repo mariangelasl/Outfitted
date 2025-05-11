@@ -1,48 +1,78 @@
-<nav class="navbar navbar-expand bg-success sticky-top" aria-label="Barra de navegacion">
-  <div class="container-fluid">
+<nav class="navbar navbar-expand-lg bg-primary sticky-top" aria-label="Barra de navegacion">
+  <div class="container-fluid d-flex align-items-center">
 
-    <a class="navbar-brand" [routerLink]="['inicio']">Outfitted</a> <!--Como imagen, una tipografia-->
+    <a class="navbar-brand d-flex align-items-center ps-3" [routerLink]="isLoggedIn() ? 'welcome' : 'inicio'" aria-label="Outfitted">
+      <img src="logo_letras_2.png"
+           width="230" height="70"
+           class="me-2" alt="Logo Outfitted">
+    </a>
   
+    <!--boton toggle para dispositivos pequeños-->
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav"
+            aria-controls="offcanvasNav" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <div class="d-flex justify-content-center align-items-center" id="navitems">
-
-      <ul class="navbar-nav me-auto">
-
-        <!--links iniciales-->
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" [routerLink]="['inicio']" *ngIf="!isLoggedIn()">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['funcionamiento']" *ngIf="!isLoggedIn()">¿Cómo funciona?</a>
-        </li>
-        
-        <!--Se muestra si el usuario ha hecho log in-->
-
-        <li class="nav-item">
-          <!--lleva a la pagina con estadisticas y el calendario-->
-          <a class="nav-link" [routerLink]="['welcome']" *ngIf="isLoggedIn()">Calendario</a>
-        </li>
-        <li class="nav-item">
-          <!--lleva a la lista de armarios de ese usuario-->
-          <a class="nav-link" [routerLink]="['closets-list']" *ngIf="isLoggedIn()">Mis armarios</a>
-        </li>
-        <li class="nav-item">
-          <!--abre el modal para introducir el nombre del nuevo armario-->
-          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#nuevoClosetModal" *ngIf="isLoggedIn()">Crear armario</a>
-        </li>
-      </ul>
-
-      <!--botones de login, registro y logout-->
-
-      <div class="d-lg-flex col-6 justify-content-lg-end me-2">
-          <button type="button" class="btn btn-outline-primary me-2 " [routerLink]="['registro']" *ngIf="!isLoggedIn()">Registrarse</button>
-          <button type="button" class="btn btn-primary" [routerLink]="['login']" *ngIf="!isLoggedIn()">Iniciar sesión</button>
-
-          <!--Se muestra si el usuario ha hecho login-->
-          <button type="button" class="btn btn-primary" *ngIf="isLoggedIn()" (click)="logout()">Cerrar sesión</button>
-          
+    <div class="offcanvas offcanvas-lg offcanvas-end bg-primary" tabindex="-1" id="offcanvasNav" aria-labelledby="offcanvasNavLabel">
+      <div class="offcanvas-header d-lg-none">
+        <h5 id="offcanvasNavLabel" class="mb-0">Menú</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
       </div>
-      
+
+      <div class="offcanvas-body d-flex align-items-center flex-lg-row flex-column gap-3 ms-lg-auto" id="navitems">
+
+        <ul class="navbar-nav flex-lg-row flex-column align-items-lg-center gap-lg-3 mb-0">
+
+          <!--links iniciales-->
+          <li class="nav-item" *ngIf="!isLoggedIn()">
+            <a class="nav-link" aria-current="page" [routerLink]="['inicio']">Inicio</a>
+          </li>
+          <li class="nav-item" *ngIf="!isLoggedIn()">
+            <a class="nav-link" [routerLink]="['funcionamiento']">¿Cómo funciona?</a>
+          </li>
+          
+          <!--Se muestra si el usuario ha hecho log in-->
+
+          <li class="nav-item" *ngIf="isLoggedIn()">
+            <!--lleva a la pagina de bienvenida, con estadisticas y el calendario-->
+            <a class="nav-link" [routerLink]="['welcome']">Calendario</a>
+          </li>
+
+          <li class="nav-item" *ngIf="isLoggedIn()">
+            <!--lleva a la lista de armarios de ese usuario-->
+            <a class="nav-link" [routerLink]="['closets-list']">Mis armarios</a>
+          </li>
+
+          <li class="nav-item" *ngIf="isLoggedIn()">
+            <!--abre el modal para introducir el nombre del nuevo armario-->
+            <a class="nav-link" href="#"
+            data-bs-toggle="modal" data-bs-target="#nuevoClosetModal">
+            Crear armario</a>
+          </li>
+        </ul>
+
+        <!--botones de login, registro y logout-->
+
+        <div class="d-flex flex-lg-row flex-column gap-2 pe-3">
+
+            <button type="button" class="btn btn-secondary"
+                    [routerLink]="['registro']" *ngIf="!isLoggedIn()">
+                    Registrarse
+            </button>
+
+            <button type="button" class="btn btn-secondary"
+                    [routerLink]="['login']" *ngIf="!isLoggedIn()">
+                    Iniciar sesión
+            </button>
+
+            <!--Se muestra si el usuario ha hecho login-->
+            <button type="button" class="btn btn-secondary"
+                    *ngIf="isLoggedIn()" (click)="logout()">
+                    Cerrar sesión
+            </button>
+            
+        </div>
+      </div>
     </div>
   </div>
 </nav>
@@ -52,7 +82,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
           <h5 class="modal-title" id="nuevoClosetLabel">Crear nuevo armario</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -62,8 +92,8 @@
         </div>
   
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="crearCloset()">Crear</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="crearCloset()">Crear</button>
         </div>
       
       </div>

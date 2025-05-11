@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ICloset } from '../interfaces/icloset';
 import { DatosClosetsService } from '../services/closet/datos-closets.service';
 import { Router } from '@angular/router';
+import { CompartidoService } from '../services/compartido/compartido.service';
 
 @Component({
   selector: 'app-closets-list',
@@ -21,6 +22,7 @@ export class ClosetsListComponent implements OnInit{
   userId : number = 0;
   constructor(private closetService: DatosClosetsService,
               private router: Router,
+              private compartidoService: CompartidoService,
   ){ }
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class ClosetsListComponent implements OnInit{
       this.userId = usuario.id; 
       this.nombreUsuario = usuario.name;
 
+      /*
       //Closets que pertenecen a ese usuario
       this.closetService.getClosets(this.userId).subscribe(resp => {
         if(resp.body) this.closetsPropios = resp.body;
@@ -50,7 +53,24 @@ export class ClosetsListComponent implements OnInit{
       //todos los closets
 
       this.closets = this.closetsPropios.concat(this.closetsCompartidos);
-    } 
+    */
+
+      this.closetService.getClosets(this.userId).subscribe(resp => {
+      if (resp.body) {
+        this.closetsPropios = resp.body;
+
+        // segundo: obtener compartidos
+        this.compartidoService.getCompartidos(this.userId).subscribe(resp2 => {
+          if (resp2.body) {
+            this.closetsCompartidos = resp2.body;
+
+            // luego unir ambos
+            this.closets = this.closetsPropios.concat(this.closetsCompartidos);
+          }
+        });
+      }
+    });
+      } 
   }
     
   

@@ -15,7 +15,7 @@ export class CompartidoService {
     return this._http.post(environment.apiUrl + 'api/compartido/create',  datos,  { observe: 'response' });
 }
 
-getClosetsCompartidos(id: number): Observable<HttpResponse<ICloset[]>> {
+getCompartidos(id: number): Observable<HttpResponse<ICloset[]>> {
     return this._http.get<ICloset[]>(environment.apiUrl + 'api/compartidos/' + id,    { observe: 'response' });
 
 }

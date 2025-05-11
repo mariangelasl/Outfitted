@@ -1,65 +1,65 @@
-<div class="panel panel-primary">
+<div class="container py-5">
   
   <!--filtros para las prendas-->
-  <div class="row mb-3 mt-2" *ngIf="prendas.length > 0">
+  <div *ngIf="prendas.length > 0" class="row g-3 mb-4 align-items-center">
 
-    <div class="col-md-2 text-start"> <!--lo mas a la izquierda-->
-      <h3>Filtrar por: </h3>
+    <div class="col-auto">
+      <h3 class="mb-0">Filtrar por: </h3>
     </div>
     
-    <div class="col-md-2">
-      <input type="text" [(ngModel)] = "colorFilter" placeholder="color de la prenda">
+    <div class="col-auto">
+      <input type="text" [(ngModel)] = "colorFilter"
+            placeholder="color de la prenda" aria-label="Filtrar por color">
     </div>
 
-    <div class="col-md-2">
-      <select class="form-select" aria-label="Lista de categorias" [(ngModel)] = "categoriaFilter">
-        <option selected [value]="">Categoría</option>
+    <div class="col-auto">
+      <select class="form-select" aria-label="Filtrar por categoria" [(ngModel)] = "categoriaFilter">
+        <option [value]="0">-- Categoría --</option>
         <option *ngFor="let categoria of categorias" [value]="categoria.id"> 
             {{categoria.nombre}}
         </option>
       </select>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-auto">
       
-      <select class="form-select" aria-label="Lista de estilos" [(ngModel)] = "estiloFilter">
-        <option selected [value]="">Estilo</option>
+      <select class="form-select" aria-label="Filtrar por estilos" [(ngModel)] = "estiloFilter">
+        <option [value]="0">-- Estilo --</option>
         <option *ngFor="let estilo of estilos" [value]="estilo.id"> 
             {{estilo.nombre}}
         </option>
       </select>
-    
     </div>
 
-    <div class="col-md-2">
+    <div class="col-auto">
       <select class="form-select" aria-label="Lista de estaciones del año" [(ngModel)] = "temporadaFilter">
-        <option selected [value]="0">Temporada</option>
+        <option selected [value]="0">-- Temporada --</option>
         <option *ngFor="let temporada of temporadas" [value]="temporada.id"> 
             {{temporada.nombre}}
         </option>
       </select>
     </div>
 
-    <div class="col-md-2">
-      <button type="button" (click)="limpiarFiltros()">Limpiar filtros</button>
+    <div class="col-auto">
+      <button type="button" class="btn btn-secondary" (click)="limpiarFiltros()">Limpiar filtros</button>
     </div>
 
 
   </div> <!--fin filtros-->
 
   <!--botones-->
-  <div class="row mb-3">
+  <div class="row mb-4">
     <div class="col text-end">
 
       <!--agregar prenda-->
-      <button type="button" [routerLink]="['/closet', idCloset, 'prenda-create']" class="btn btn-success me-2">
+      <button type="button" [routerLink]="['/closet', idCloset, 'prenda-create']" class="btn btn-primary text-dark me-2">
         <i class="bi bi-plus-circle"></i> Agregar prenda
       </button>
       
       <!--crear outfit o actualizar dependiendo de si venimos del boton de edicion del outfit list-->
       <!--abre un modal para indicar el nombre del outfit-->
       <button *ngIf="prendas.length > 0 && haySeleccionadas()"
-        class="btn btn-success"
+        class="btn btn-primary text-dark"
         data-bs-toggle="modal"
         data-bs-target="#modalCrearOutfit">
         <i class="bi bi-stars"></i>
@@ -68,61 +68,68 @@
     </div>
   </div>    
 
-  <div *ngIf="prendas.length > 0" class="alert alert-info">
+   <div *ngIf="prendas.length == 0" class="col">
+      <p class="text-center mb-0">Aún no tienes prendas en este armario</p>
+  </div>
+
+  <div *ngIf="prendas.length > 0" class="alert alert-info text-center">
     Selecciona varias prendas para combinarlas en un nuevo outfit
   </div>
 
-  <div class="row">
-    <div *ngIf="prendas.length==0" class="col">
-      <p class="text-center">Aun no tienes prendas en este armario</p>
-    </div>
-
     <!--muestro las prendas y sus caracteristicas principales-->
-    <div *ngIf="prendas.length>0" class="row row-cols-1 row-cols-md-3 g-2">
-          <div *ngFor="let prenda of prendas | colorFilter: colorFilter | categoriaFilter: categoriaFilter | estiloFilter: estiloFilter | temporadaFilter: temporadaFilter" class="col">
+          
+      <div *ngIf="prendas.length > 0" class="row row-cols-2 row-cols-md-3 g-4">
+          
+        <div *ngFor="let prenda of prendas | colorFilter: colorFilter | categoriaFilter: categoriaFilter | estiloFilter: estiloFilter | temporadaFilter: temporadaFilter" class="col">
             <div class="card h-100">
-                <div class="row g-0">
-                    <div class="col-md-5 d-flex flex-column align-items-center justify-content-between p-2">
-                      <img [src]="prenda.imagen_url" class="img-fluid rounded" alt="imagen de la prenda">
+              <div class="row g-0 card-body">
+                <div class="col-md-5 d-flex flex-column align-items-center justify-content-center p-2">
 
-                      <!--botones para editar o eliminar la prenda-->
-                      <div class="btn-group mt-2" role="group">
-                        <button [routerLink]="['/prenda-edit', prenda.id]" class="btn btn-outline-warning" title="editar prenda">
-                          <i class="bi bi-pencil"></i>
-                        </button>
-
-                        <!--abre un modal para confirmar la eliminacion-->
-                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarPrendaModal"
-                        (click)="abrirModal(prenda.id)" title="eliminar prenda">
-                          <i class="bi bi-trash"></i>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="col-md-7 p-2">  <!--datos de la prenda-->
-                      <p><i class="bi bi-palette"></i> {{ prenda.color }}</p>
-                      <p><i class="bi bi-bag"></i> {{ prenda.categoria.nombre }}</p>
-                      <p><i class="bi bi-cloud-sun"></i> {{ prenda.temporada.nombre }}</p>
-                      <p><i class="bi bi-tag"></i> {{ prenda.estilo.nombre }}</p>
-                    </div>
+                <div class="ratio ratio-1x1 w-100 mb-2">
+                    <img [src]="prenda.imagen_url" 
+                          class="object-fit-cover rounded"
+                          alt="imagen de la prenda">
                 </div>
 
-                <div class="card-footer text-end"> <!--checkbox para seleccionar la prenda si quiero incluirla en un outfit-->
+                <div class="btn-group mt-auto" role="group">
+                  <button [routerLink]="['/prenda-edit', prenda.id]" class="btn btn-outline-warning" title="editar prenda">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+
+                  <!--abre un modal para confirmar la eliminacion-->
+                  <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarPrendaModal"
+                  (click)="abrirModal(prenda.id)" title="eliminar prenda">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+
+                <div class="col-md-7 p-2 d-flex flex-column">
+                  <!--datos de la prenda-->
+                  <p class="mb-1"><i class="bi bi-palette text-secondary mx-2"></i> {{ prenda.color }}</p>
+                  <p class="mb-1"><i class="bi bi-bag text-secondary mx-2"></i> {{ prenda.categoria.nombre }}</p>
+                  <p class="mb-1"><i class="bi bi-cloud-sun text-secondary mx-2"></i> {{ prenda.temporada.nombre }}</p>
+                  <p class="mb-1"><i class="bi bi-tag text-secondary mx-2"></i> {{ prenda.estilo.nombre }}</p>
+                </div>
+              </div>
+                  
+
+                <div class="card-footer bg-primary text-white py-2 text-end"> <!--checkbox para seleccionar la prenda si quiero incluirla en un outfit-->
                   <input type="checkbox" [value]="prenda.id" (change)="seleccionada(prenda.id, $event)"
                   [checked]="prendasOutfit.includes(prenda.id)">
                 </div>
+              
             </div>
         </div>
     </div>
-  </div>
-</div>
+ 
 
 <!--modal para confirmar que se quiere eliminar la prenda-->
 <div class="modal fade" id="eliminarPrendaModal" tabindex="-1" aria-hidden="true" aria-labelledby="eliminarPrendaLabel">
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h5 class="modal-title" id="eliminarPrendaLabel">Eliminar prenda</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>

@@ -1,32 +1,53 @@
-<div class="container mt-5">
-    <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)">
-      
-      <div class="mb-3">
-        <label for="email" class="form-label">Correo</label>
-        <input type="email" id="email" formControlName="email" class="form-control" required/>
-      </div>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4">
 
-      <span  *ngIf="this.myForm.get('email')?.errors?.['required']">
-        Debe rellenar este campo
-      </span>
-  
-      <div class="mb-3">
-        <label for="password" class="form-label">Contraseña</label>
-        <input type="password" id="password" formControlName="password" class="form-control" required/>
-      </div>
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)"
+            novalidate aria-label="inicio de sesion"
+            class="px-4 py-3">
+        
+        <h2 id="formulario-login" class="h4 mb-4 mt-4 text-center">Iniciar sesión</h2>    
 
-      <span  *ngIf="this.myForm.get('password')?.errors?.['required']">
-        Debe rellenar este campo
-      </span>
-  
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary" [disabled]="myForm.invalid">
-          Iniciar sesión
-        </button>
-      </div>
-    </form>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo</label>
+          
+          <input type="email" id="email" formControlName="email"
+          class="form-control" required
+          [class.is-invalid]="myForm.get('email')?.invalid && myForm.get('email')?.touched"
+          aria-describedby="email-error"/>
+
+          <div id="email-error" class="invalid-feedback">
+              Debe rellenar este campo
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="mb-4">
+          <label for="password" class="form-label">Contraseña</label>
+          
+          <input type="password" id="password" formControlName="password"
+          class="form-control" required
+          [class.is-invalid]="myForm.get('password')?.invalid && myForm.get('password')?.touched"
+          aria-describedby="password-error"
+          />
+
+          <div id="password-error" class="invalid-feedback">
+              Debe rellenar este campo
+          </div>
+        </div>
+
+       <div class="d-flex justify-content-end mb-4">
+
+          <button type="submit" class="btn btn-secondary" [disabled]="myForm.invalid">
+            Iniciar sesión
+          </button>
+        </div>
+      </form>
+
+    <div *ngIf="errorMessage" class="alert alert-danger mt-4 ">
+          {{ errorMessage }}
+    </div>
+
+    </div>
   </div>
-  
-  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-    {{ errorMessage }}
-  </div>
+</div>

@@ -1,2 +1,73 @@
 /* You can add global styles to this file, and also import other style files */
 
+/*redefino los colores principales para adaptarlos a outfitted*/
+:root {
+  --bs-primary:   #ccaff9ff;
+  /*--bs-secondary: #a2bfeeff;
+  --bs-secondary-rgb:162, 191, 238;
+  --bs-secondary: #88d2ffff;
+  --bs-secondary: #3984e1ff;
+  --bs-secondary: #418ae7ff;
+  --bs-secondary: #5398eaff;
+  --bs-secondary: #4f6dd5ff;*/
+  --bs-secondary: #3c79b9ff;
+  --bs-light: #fff7d7ff;
+  --bs-primary-rgb: 204, 175, 249;
+  --bs-secondary-rgb: 60, 121, 185;
+  --bs-light-rgb: 255, 247, 215;
+  --bs-btn-bg: var(--bs-secondary);
+  --bs-dark: #000;
+  --bs-dark-rgb:0,0,0;
+    }
+
+  /* Para btn-secondary azul */
+.btn-secondary {
+  --bs-btn-color:            #000;
+ 
+  --bs-btn-bg:               var(--bs-secondary);
+  --bs-btn-border-color:     var(--bs-secondary);
+
+  /* Asegura que se apliquen */
+  color:            var(--bs-btn-color) !important;
+  background-color: var(--bs-btn-bg) !important;
+  border-color:     var(--bs-btn-border-color) !important;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(var(--bs-secondary-rgb), 0.5);
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: var(--bs-secondary);
+  --bs-btn-border-color: var(--bs-secondary);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--bs-secondary);
+}
+
+.text-secondary{
+  color: var(--bs-secondary) !important;
+}
+
+/*html y body deben ocupar toda la altura */
+html, body {
+  height: 100%;
+  margin: 0; /* elimina márgenes por defecto */
+}
+
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%; /* para que flex funcione a toda altura */
+}
+
+app-root > .container {
+  flex: 1 0 auto; /* crece y empuja el footer hacia abajo */
+}
+
+app-footer {
+  flex-shrink: 0;
+}
+

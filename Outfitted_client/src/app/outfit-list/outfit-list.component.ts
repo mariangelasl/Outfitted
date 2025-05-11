@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DatosOutfitsService } from '../services/outfit/datos-outfits.service';
 import { IOutfit } from '../interfaces/ioutfit';
 import { DatosCalendariosService } from '../services/calendario/datos-calendarios.service';
-
+import { Modal } from 'bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-outfit-list',
@@ -26,6 +27,7 @@ export class OutfitListComponent implements OnInit {
 
   constructor(private outfitService: DatosOutfitsService,
               private calendarioService: DatosCalendariosService,
+              private router: Router,
 
   ){ }
 
@@ -81,17 +83,31 @@ export class OutfitListComponent implements OnInit {
       this.errorMessage = 'La fecha fin no puede ser anterior a la de inicio.';
       return;
     }
+    const user = localStorage.getItem('user');
+    
+     if (!user) {
+      this.errorMessage = 'No se encontró la sesión del usuario.';
+      return;
+    }
   
     const evento = {
       outfit_id: this.outfitSeleccionado.id,
-      fecha_inicio: this.fechaInicio,
-      fecha_fin: this.fechaFin
+      fechaInicio: this.fechaInicio,
+      fechaFin: this.fechaFin,
+      user_id: JSON.parse(user).id,
     };
-  
-    this.calendarioService.crearEvento(evento).subscribe({
+    
+    this.calendarioService.createEvento(evento).subscribe({
       next: () => {
         this.errorMessage = '';
-        //maybe  recargar la lista
+        //cierro el modal
+
+        const modal = document.getElementById('modalCalendario');
+        if (modal) {
+          Modal.getOrCreateInstance(modal).hide();
+        }
+
+        this.router.navigate(['welcome']);
       },
       error: err => {
         this.errorMessage = 'Error al guardar el evento.';

@@ -1,35 +1,43 @@
-<div class="container mt-4">
+<div class="container py-5">
 
     <!--enlace para volver a la lista de closets-->
-    <a [routerLink]="['/closets-list']" class="btn btn-link">&larr;Volver</a>
+    <a [routerLink]="['/closets-list']"
+        class="text-secondary d-inline-block mb-3"
+        aria-label="Volver a la lista de armarios">
+        &larr;Volver
+    </a>
   
     <!-- Encabezado del closet -->
     <div class="d-flex align-items-center mb-3">
+
       <img src="/icons/open-closet.svg" alt="Closet Abierto" width="60" class="me-3">
+      
       <h3 class="mb-0">{{ nombreCloset }}</h3>
   
       <!--botones para editar o eliminar el closet-->
       <div class="ms-auto">
 
-
         <!--boton para compartir armario-->
         <!--abre un modal para indicar el correo de la persona invitada-->
 
-        <button class="btn btn-outline-info btn-sm"
+        <button class="btn btn-outline-info btn-sm me-2" 
+              title="compartir armario" aria-label="Compartir armario"
               data-bs-toggle="modal"
               data-bs-target="#compartirClosetModal"
-              (click)="abrirModalCompartir()" title="compartir armario">
+              (click)="abrirModalCompartir()">
         <i class="bi bi-person-add"></i>
         </button>
 
         <!--abre un modal para editar el nombre del closet-->
         <button class="btn btn-outline-warning btn-sm me-2" 
-        data-bs-toggle="modal" data-bs-target="#editarClosetModal" (click)="mostrarNombre()" aria-label="editar closet" title="editar armario">
-        <i class="bi bi-pencil"></i>
+                data-bs-toggle="modal" data-bs-target="#editarClosetModal"
+                (click)="mostrarNombre()"
+                aria-label="editar closet" title="editar armario">
+          <i class="bi bi-pencil"></i>
         </button>
 
         <!--abre un modal para pedir confirmacion para eliminar-->
-        <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarClosetModal" aria-label="eliminar closet" title="eliminar armario">
+        <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarClosetModal" aria-label="eliminar armario" title="eliminar armario">
           <i class="bi bi-trash"></i>
         </button>
       </div>
@@ -37,21 +45,26 @@
     </div>
 
     <!-- Info sobre cantidad prendas y outfits dentro del closet-->
-    <p class="text-muted">({{ cantidadPrendas }} prendas - {{ cantidadOutfits }} outfits)</p>
+    <p class="text-muted pb-4 text-secondary">({{ cantidadPrendas }} prendas - {{ cantidadOutfits }} outfits)</p>
   
     <!-- Tabs para cambiar entre ver todas las prendas o ver todos los outfits -->
 
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="vistaActual === 'prendas'" (click)="vistaActual = 'prendas'">Ver prendas</a>
+    <ul class="nav nav-tabs" role="tablist" id="closetTabList">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" [class.active]="vistaActual === 'prendas'"
+          (click)="vistaActual = 'prendas'"
+          role="tab" aria-controls="prendas-panel">Ver prendas</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="vistaActual === 'outfits'" (click)="vistaActual = 'outfits'">Ver outfits</a>
+
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" [class.active]="vistaActual === 'outfits'"
+           (click)="vistaActual = 'outfits'"
+           role="tab" aria-controls="outfits-panel">Ver outfits</a>
       </li>
     </ul>
   
     <!-- Se visualiza el componente segun la tab seleccionada -->
-    <div class="mt-4">
+    <div class="tab-content mt-4">
       <app-prenda-list *ngIf="vistaActual === 'prendas'" [idCloset]="idCloset"></app-prenda-list>
       <app-outfit-list *ngIf="vistaActual === 'outfits'" [idCloset]="idCloset"></app-outfit-list>
     </div>
@@ -63,7 +76,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h5 class="modal-title">Editar nombre del armario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -73,8 +86,8 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" (click)="editarCloset()" data-bs-dismiss="modal">Guardar cambios</button>
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-secondary" (click)="editarCloset()" data-bs-dismiss="modal">Guardar cambios</button>
       </div>
 
     </div>
@@ -86,7 +99,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h5 class="modal-title">Eliminar armario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -96,7 +109,7 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
         <button class="btn btn-danger" (click)="eliminarCloset()" data-bs-dismiss="modal">Eliminar</button>
       </div>
 
@@ -109,7 +122,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h5 class="modal-title">Compartir armario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -124,8 +137,8 @@
       <div *ngIf="mensajeExito" class="alert alert-success mt-2">{{ mensajeExito }}</div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" (click)="compartirCloset()" data-bs-dismiss="modal">Compartir</button>
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-secondary" (click)="compartirCloset()" data-bs-dismiss="modal">Compartir</button>
       </div>
 
     </div>

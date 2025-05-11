@@ -1,0 +1,33 @@
+h1{
+    color: #3c79b9ff;
+  }
+
+  /*
+.btn{
+    background-color: #ccaff9ff;
+  }*/
+
+.primera{
+    max-width: 300px; 
+    max-height: 300px;
+    border-radius: 5%;
+  }
+
+.segunda{
+    max-width: 300px; 
+    max-height: 300px;
+    border-radius: 5%;
+  }
+
+.featurette-divider{
+    color: #ccaff9ff;
+    border-top-width: 0.3rem;
+    /*border-style:dashed;*/
+  }
+
+  /*
+  .prueba{
+    background-color: none;
+    background-size: cover;
+    background-image: url('../../../public/logo_letras_2.png');
+  }*/

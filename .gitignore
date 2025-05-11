@@ -5,7 +5,6 @@
 # Laravel
 /outfitted_server/vendor/
 /outfitted_server/node_modules/
-/outfitted_server/storage/
 
 
 # Otros
