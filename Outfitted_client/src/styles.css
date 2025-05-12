@@ -33,8 +33,10 @@
   border-color:     var(--bs-btn-border-color) !important;
 }
 
-.btn-secondary:hover {
-  background-color: rgba(var(--bs-secondary-rgb), 0.5);
+.btn-secondary:hover{
+  background-color: rgba(var(--bs-secondary-rgb), 0.8) !important;
+  border-color:     rgba(var(--bs-secondary-rgb), 0.8) !important;
+  color: var(--bs-btn-color) !important;
 }
 
 .btn-outline-secondary {

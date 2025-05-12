@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatosPrendasService } from '../services/prenda/datos-prendas.service';
 import { DatosCategoriasService } from '../services/categoria/datos-categorias.service';
 import { DatosEstilosService } from '../services/estilo/datos-estilos.service';
@@ -45,10 +45,10 @@ export class PrendaEditComponent implements OnInit {
     this.prendaId = Number(this.route.snapshot.paramMap.get('id'));
 
     this.myForm = this.formBuilder.group({
-      color: [''],
-      categoria_id: [''],
-      temporada_id: [''],
-      estilo_id: ['']
+      color: ['', [Validators.required]],
+      categoria_id: ['', [Validators.required]],
+      temporada_id: ['', [Validators.required]],
+      estilo_id: ['', [Validators.required]]
     });
 
     // Cargar selects

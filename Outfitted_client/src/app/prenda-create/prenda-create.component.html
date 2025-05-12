@@ -1,76 +1,104 @@
+<div class="container my-5">
+
+
 <!--link para volver al listado-->
 
-<a [routerLink]="['/closet', idCloset]" class="btn btn-link">&larr;Volver</a>
+<a [routerLink]="['/closet', idCloset]" class="btn btn-link text-secondary mb-3">&larr;Volver</a>
 
-<h3 class="fill-remaining-space mt-3">Crear nueva prenda</h3>
+<h2 class="mb-4 text-center">Crear nueva prenda</h2>
 
-<div class="container mt-4">
-  <form [formGroup]="myForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data"> 
+<div class="row justify-content-center">
 
-    <div class="form-group mb-3">
-        <label for="imagen" class="form-label">Sube la imagen de tu prenda</label>
-        <input class="form-control" type="file" id="imagen" aria-label="Sube la imagen de tu prenda" required (change)="archivar($event)">
-    </div>
+  <div class="col-12 col-md-6 col-lg-6">
 
-    <span  *ngIf="this.myForm.get('imagen')?.errors?.['required']">
-      Debe subir una imagen
-    </span>
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()"
+          enctype="multipart/form-data" novalidate class="px-5 py-4"> 
 
-    <div class="form-group mb-3">
-        <label for="color" class="form-label">Color:</label>
-        <input type="text" class="form-control" id="color" placeholder="escribe un color" formControlName="color" aria-label="Elige el color de tu prenda" required>
-    </div>
+      
+      <div class="form-group mb-3">
+          <label for="imagen" class="form-label">Imagen:</label>
+          <input class="form-control" type="file" id="imagen" aria-label="Sube la imagen de tu prenda" required
+                (change)="archivar($event)" [class.is-invalid]="!imagenSeleccionada && myForm.touched">
+      
 
-    <span  *ngIf="this.myForm.get('color')?.errors?.['required']">
-      Debe rellenar este campo
-    </span>
+          <div class="invalid-feedback">
+            Debes subir una imagen
+          </div>
 
-    <div class="form-group mb-3">
-      <label for="categoria_id" class="form-label">Categoría:</label>
-      <select class="form-select" formControlName="categoria_id" id="categoria_id" aria-label="Lista de categorias" required>
-        <option *ngFor="let categoria of categorias" [value]="categoria.id"> 
-            {{categoria.nombre}}
-        </option>
-      </select>
-    </div>
+      </div>
 
-    <span  *ngIf="this.myForm.get('categoria_id')?.errors?.['required']">
-      Debe seleccionar una opcion
-    </span>
+      <div class="form-group mb-3">
+          <label for="color" class="form-label">Color:</label>
+          <input type="text" class="form-control" id="color" placeholder="Escribe un color"
+           formControlName="color" aria-label="Escribe el color de tu prenda" required
+           [class.is-invalid]=" myForm.get('color')?.invalid && myForm.get('color')?.touched">
+      
+          <div class="invalid-feedback">
+            Debes rellenar este campo
+          </div>
+      </div>
 
-    <div class="form-group mb-3">
-      <label for="temporada_id">Temporada:</label>
-      <select class="form-select" formControlName="temporada_id" id="temporada_id" aria-label="Lista de estaciones del año" required>
-        <option *ngFor="let temporada of temporadas" [value]="temporada.id"> 
-            {{temporada.nombre}}
-        </option>
+
+      <div class="form-group mb-3">
+        <label for="categoria_id" class="form-label">Categoría:</label>
+        <select class="form-select" formControlName="categoria_id" id="categoria_id"
+                aria-label="Selecciona una categoria" required
+                [class.is-invalid]="myForm.get('categoria_id')?.invalid && myForm.get('categoria_id')?.touched">
+          <option *ngFor="let categoria of categorias" [value]="categoria.id"> 
+              {{categoria.nombre}}
+          </option>
         </select>
-    </div>
 
-    <span  *ngIf="this.myForm.get('temporada_id')?.errors?.['required']">
-      Debe seleccionar una opcion
-    </span>
+        <div class="invalid-feedback">
+          Debes seleccionar una categoría
+        </div>
 
-    <div class="form-group mb-3">
-      <label for="estilo_id">Estilo:</label>
-        <select class="form-select" formControlName="estilo_id" id="estilo_id" aria-label="Lista de estilos para la prenda" required>
-           <option *ngFor="let estilo of estilos" [value]="estilo.id"> 
-              {{estilo.nombre}}
-            </option>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="temporada_id" class="form-label">Temporada:</label>
+        <select class="form-select" formControlName="temporada_id" id="temporada_id"
+                aria-label="Selecciona una temporada" required
+                [class.is-invalid]="myForm.get('temporada_id')?.invalid && myForm.get('temporada_id')?.touched">
+          <option *ngFor="let temporada of temporadas" [value]="temporada.id"> 
+              {{temporada.nombre}}
+          </option>
         </select>
-    </div>
-    
-    <span  *ngIf="this.myForm.get('estilo_id')?.errors?.['required']">
-      Debe seleccionar una opcion
-    </span>
 
-    <button type="submit" class="btn btn-primary" id="prenda_create">Crear</button>
- </form>
-</div>
+        <div class="invalid-feedback">
+          Debes seleccionar una temporada
+        </div>
+      </div>
 
-<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+
+      <div class="form-group mb-3">
+        <label for="estilo_id" class="form-label">Estilo:</label>
+          <select class="form-select" formControlName="estilo_id" id="estilo_id" 
+          aria-label="Selecciona un estilo para la prenda" required
+          [class.is-invalid]="myForm.get('estilo_id')?.invalid && myForm.get('estilo_id')?.touched">
+            <option *ngFor="let estilo of estilos" [value]="estilo.id"> 
+                {{estilo.nombre}}
+              </option>
+          </select>
+
+          <div class="invalid-feedback">
+            Debes seleccionar un estilo
+          </div>
+      </div>
+      
+
+      <button type="submit" class="btn btn-secondary mt-2" id="prenda_create">Crear</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4">
   {{ errorMessage }}
+  </div>
+
+  </div>
+  </div>
 </div>
+
+
 
 
 

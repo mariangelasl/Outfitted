@@ -1,0 +1,12 @@
+form{
+    border: 2px solid var(--bs-secondary);
+    border-radius: 5%;
+  }
+
+a {
+    color: #3c79b9ff;
+  }
+
+.img-thumbnail{
+    max-height: 200px;
+  }

@@ -1,27 +1,39 @@
-<div class="panel panel-primary">
-    <div class="panel-heading"> <!--grande y puede ser centrado o a la izq-->
-      <h1>¡Hola, {{ nombreUsuario }}!</h1>
-    </div>
+<div class="container py-5">
+
+    <header class="mb-5">
+      <h1 class="fw-bold text-secondary">¡Hola, {{ nombreUsuario }}!</h1>
+    </header>
   
+    <div class="row g-4"> 
 
-    <!--Puede ser el calendario ocupando toda la col izq, y luego la derecha dividida en dos filas. Arriba espacio para las estadisticas y abajo los links-->
-    <div class="row"> 
-        <div class="col-6"> 
-            <h2>¿Buscas consejos para mejorar tu armario y tu estilo?</h2><br>
-            <h4>Te recomendamos algunos articulos:</h4><br>
-            <a href="https://tomouncafe.wordpress.com/2024/12/17/que-es-un-smart-closet/">¿Que es un smart closet?</a><br>
-            <a href="https://tomouncafe.wordpress.com/2025/02/15/tips-para-comprar-ropa/">Tips para comprar ropa</a><br>
-            <a href="https://tomouncafe.wordpress.com/2025/01/13/como-llevar-accesorios/">¿Como llevar accesorios?</a><br>
-        </div>
-        <div class="col-6"> 
-            <h2>Mi planificacion de outfits</h2>
-            <!-- aqui iria el calendario-->
-              <app-calendario></app-calendario>
+        <div class="col-12 col-lg-6"> 
+           
+        <section aria-labelledby="estadisticas" class="mb-4">
+            <h2 id="estadisticas" class="h4 mb-4">Tus estadísticas</h2>
+            <div class="border border-secondary rounded p-3">
+            
+            <p class="text-muted">uso de prendas</p>
+            </div>
+        </section>
 
+      <!--Sugerencias -->
+
+      <section aria-labelledby="sugerencias">
+
+        <h2 id="sugerencias" class="h4 mb-3">Sugerencias personalizadas</h2>
+        <div class="border border-secondary rounded p-3">
+          <!--Recomendaciones basadas en estadísticas -->
+          <p class="text-muted">[Recomendaciones de outfits]</p>
         </div>
+      </section>
 
     </div>
 
 
-
+    <div class="col-12 col-lg-6"> 
+        <h2 class="h4 mb-4">Planificacion de outfits</h2>
+        
+            <app-calendario></app-calendario>
+    </div>
+  </div>
 </div>
