@@ -40,7 +40,7 @@ Route::put('/calendario/{id}', [CalendarioController::class, 'updateCalendario']
 
 Route::get('/calendario/{id}', [CalendarioController::class, 'getCalendario']);
 
-Route::post('/calendario/create', [CalendarioController::class, 'createCalendario']);
+//Route::post('/calendario/create', [CalendarioController::class, 'createCalendario']);
 
 Route::delete('/calendario/{id}' , [CalendarioController::class, 'deleteCalendario']);
 

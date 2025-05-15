@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class OutfitListComponent implements OnInit {
 
   @Input() idCloset!: number; //se lo paso desde el componente incrustado en el closet vie
+  @Input() filtroCalendario: string = '';
   outfits: IOutfit[] = [];
   idOutfit : number = 0;
   outfitFilter:string = '';
@@ -33,6 +34,7 @@ export class OutfitListComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.outfitFilter = this.filtroCalendario;
     //obtengo los outfits de ese closet
     this.outfitService.getOutfits(this.idCloset).subscribe(resp => {
 
@@ -100,14 +102,9 @@ export class OutfitListComponent implements OnInit {
     this.calendarioService.createEvento(evento).subscribe({
       next: () => {
         this.errorMessage = '';
-        //cierro el modal
-
-        const modal = document.getElementById('modalCalendario');
-        if (modal) {
-          Modal.getOrCreateInstance(modal).hide();
-        }
-
         this.router.navigate(['welcome']);
+        
+
       },
       error: err => {
         this.errorMessage = 'Error al guardar el evento.';

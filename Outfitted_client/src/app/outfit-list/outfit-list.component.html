@@ -8,7 +8,7 @@
   <div class="row mb-5" *ngIf="outfits.length>0">
 
     <div class="col text-end">
-      <h3>Filtrado por:{{outfitFilter}}</h3>
+      <h3>Filtrado por: {{outfitFilter}}</h3>
       <input type="text" [(ngModel)] = "outfitFilter" placeholder="Nombre del outfit" aria-label="filtrar por nombre del outfit">
     </div>
   </div>
@@ -121,7 +121,7 @@
 
       <div class="modal-footer">
         <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-secondary" (click)="agendarOutfit()">
+        <button class="btn btn-secondary" (click)="agendarOutfit()" data-bs-dismiss="modal">
           Guardar
         </button>
       </div>

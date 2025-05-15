@@ -9,8 +9,13 @@ class EstadisticaController extends Controller
 {
     //
 
-    //funciones que revisen varios datos por separado y luego en getEstadisticas aplico todas
-    
+    //por id de prenda
+    function getEstadistica($id){
+        $estadistica = Estadistica::find($id); 
+        return $estadistica;
+    }
+
+    /*
     function getEstadisticas() {
         return Estadistica::all();
      }
@@ -20,11 +25,6 @@ class EstadisticaController extends Controller
         $estadistica = Estadistica::find($id);
         $estadistica->update($request->all());
   
-        return $estadistica;
-    }
-
-    function getEstadistica($id){
-        $estadistica = Estadistica::find($id); 
         return $estadistica;
     }
 
@@ -40,5 +40,88 @@ class EstadisticaController extends Controller
         $estadistica->delete();
 
         return $estadistica;
+    }*/
+
+
+    //pasar tambein el dato de cuantas veces? 
+
+    function getMasUsada(){ //prenda mas usada
+
+       $estadistica =  Estadistica::orderBy('veces', 'desc')->first();
+
+       $prenda = $estadistica->prenda_id;
+
+       //puedo buscar aqui de una la url de la imagen (con el id) y devolver url y veces de uso. para mostrar eso en el componente
+
+       return $prenda;
     }
+
+    function getMenosUsada(){ //prenda menos usada
+
+       $estadistica =  Estadistica::orderBy('veces', 'asc')->first();
+
+       $prenda = $estadistica->prenda_id;
+
+       return $prenda;
+    }
+
+    function getColor(){ //revisar
+
+        $color = Estadistica::join('prendas', 'estadisticas.prenda_id', '=' , 'prendas.id')
+        ->select('prendas.color') //maybe veces tambien
+        ->groupBy('prendas.color')
+        ->orderBy('veces' , 'desc')
+        ->first();
+
+        return $color;
+    }
+
+    //maybe zapatos, accesorios, bolsos mas usados
+
+    function getZapatos(){
+
+        $estadistica = Estadistica::join('prendas', 'estadisticas.prenda_id', '=' , 'prendas.id')
+        ->select('prendas.color')
+        ->groupBy('prendas.color')
+        ->orderBy('veces' , 'desc')
+        ->first();
+
+        return $estadistica;
+    }
+
+    function outfitSinUsar($closet_id){
+        $outfits = Outfit::where('closet_id', $closet_id)->get();
+        $sinUsar = [];
+        $hoy = new Date();
+        foreach($outfits as $outfit){
+
+            $usado = Calendario::where('outfit_id', $outfit->id)->first();
+
+            if(($hoy - $outfit->created_at > 7) && !$usado){
+                $sinUsar[]= $outfit->nombre;
+            }
+        }
+
+        return $sinUsar;
+    }
+
+    function outfitSinUsar2($user_id){
+        $usados = Calendario::where('user_id', $user_id)->pluck('outfit_id');
+
+        $sinUsar = Outfit::whereNotIn('id', $usados)->get(); //los outfits cuyo id no este en los outfits usados 
+
+        return $sinUsar;
+    }
+
+    function prendaSinUsar(){
+
+        //que no esten en la tabla outfits_prendas
+
+        $usadas = DB::table('outfits_prendas')->pluck('prenda_id');
+
+        $sinUsar = Prenda::whereNotIn('id', $usadas)->get();
+
+        return $sinUsar;
+    }
+
 }

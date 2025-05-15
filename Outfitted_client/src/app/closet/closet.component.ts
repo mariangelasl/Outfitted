@@ -28,6 +28,10 @@ export class ClosetComponent implements OnInit{
   mensajeError:string='';
   mensajeExito:string='';
 
+  //para redirigir del calendario
+
+  filtroOutfit: string = '';
+
 
   constructor(
     private route: ActivatedRoute,
@@ -46,6 +50,10 @@ export class ClosetComponent implements OnInit{
     this.route.queryParams.subscribe(params => {
       if (params['vista']) {
         this.vistaActual = params['vista'];
+      }
+
+      if(params['filtroOutfit']){
+        this.filtroOutfit = params['filtroOutfit'];
       }
     });
     

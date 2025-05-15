@@ -9,7 +9,6 @@ use App\Models\User;
 
 class CompartidoController extends Controller
 {
-    //
 
     //todos los closets que le han compartido a ese user
     function getCompartidos($invitado) {

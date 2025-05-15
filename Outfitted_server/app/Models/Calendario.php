@@ -17,9 +17,10 @@ class Calendario extends Model
         return $this->belongsTo(Usuario::class);
     }
 
-    public function outfits(): HasMany
+    public function outfit(): BelongsTo
     {
-        return $this->hasMany(Outfit::class);
-    }  
+    return $this->belongsTo(Outfit::class);
+    }
+ 
 
 }
