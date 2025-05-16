@@ -4,6 +4,7 @@ import { IOutfit } from '../interfaces/ioutfit';
 import { DatosCalendariosService } from '../services/calendario/datos-calendarios.service';
 import { Modal } from 'bootstrap';
 import { Router } from '@angular/router';
+import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
 
 @Component({
   selector: 'app-outfit-list',
@@ -29,6 +30,7 @@ export class OutfitListComponent implements OnInit {
   constructor(private outfitService: DatosOutfitsService,
               private calendarioService: DatosCalendariosService,
               private router: Router,
+              private usuarioService: DatosUsuariosService,
 
   ){ }
 
@@ -85,7 +87,7 @@ export class OutfitListComponent implements OnInit {
       this.errorMessage = 'La fecha fin no puede ser anterior a la de inicio.';
       return;
     }
-    const user = localStorage.getItem('user');
+    const user = this.usuarioService.getUsuario();
     
      if (!user) {
       this.errorMessage = 'No se encontró la sesión del usuario.';
@@ -96,7 +98,7 @@ export class OutfitListComponent implements OnInit {
       outfit_id: this.outfitSeleccionado.id,
       fechaInicio: this.fechaInicio,
       fechaFin: this.fechaFin,
-      user_id: JSON.parse(user).id,
+      user_id: user.id,
     };
     
     this.calendarioService.createEvento(evento).subscribe({

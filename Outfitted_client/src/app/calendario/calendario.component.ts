@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { DatosCalendariosService } from '../services/calendario/datos-calendarios.service';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
 
 
 registerLocaleData(localeEs);
@@ -26,15 +27,15 @@ export class CalendarioComponent implements OnInit {
 
   constructor(
     private calendarioService: DatosCalendariosService,
-    private router: Router
+    private router: Router,
+    private usuarioService:DatosUsuariosService,
   ) {}
 
   ngOnInit(): void {
 
 //obtengo el usuario
-    const datos = localStorage.getItem('user');
-    if (datos) {
-      const usuario = JSON.parse(datos);
+    const usuario = this.usuarioService.getUsuario();
+    if (usuario) {
       this.usuarioId = usuario.id;
     }
 

@@ -26,6 +26,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:san
 
 Route::get('/login/usuario/{correo}', [LoginController::class, 'esUsuario']);
 
+Route::get('/registro/yaRegistrado/{correo}', [RegistroController::class, 'yaRegistrado']);
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -90,15 +92,17 @@ Route::delete('/compartido/{id}' , [CompartidoController::class, 'deleteComparti
 
 Route::get('/estadisticas', [EstadisticaController::class, 'getEstadisticas']);
 
-Route::put('/estadistica/{id}', [EstadisticaController::class, 'updateEstadistica']);
-
 Route::get('/estadistica/{id}', [EstadisticaController::class, 'getEstadistica']);
 
-Route::post('/estadistica/create', [EstadisticaController::class, 'createEstadistica']);
+Route::get('/estadistica/mas-usada/{id}', [EstadisticaController::class, 'getMasUsada']);
 
-Route::delete('/estadistica/{id}' , [EstadisticaController::class, 'deleteEstadistica']);
+Route::get('/estadistica/menos-usada/{id}', [EstadisticaController::class, 'getMenosUsada']);
 
+Route::get('/estadistica/color/{id}', [EstadisticaController::class, 'getColor']);
 
+Route::get('/estadistica/outfits/{id}', [EstadisticaController::class, 'outfitSinUsar']);
+
+Route::get('/estadistica/prendas/{id}', [EstadisticaController::class, 'prendaSinUsar']);
 //estilos
 
 

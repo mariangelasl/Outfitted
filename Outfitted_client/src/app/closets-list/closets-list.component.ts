@@ -3,6 +3,7 @@ import { ICloset } from '../interfaces/icloset';
 import { DatosClosetsService } from '../services/closet/datos-closets.service';
 import { Router } from '@angular/router';
 import { CompartidoService } from '../services/compartido/compartido.service';
+import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
 
 @Component({
   selector: 'app-closets-list',
@@ -23,17 +24,18 @@ export class ClosetsListComponent implements OnInit{
   constructor(private closetService: DatosClosetsService,
               private router: Router,
               private compartidoService: CompartidoService,
+              private usuarioService: DatosUsuariosService,
   ){ }
 
   ngOnInit(): void {
 
     //obtengo el usuario actual
-    const datos = localStorage.getItem('user');
+    const usuario = this.usuarioService.getUsuario();
     
-    if (datos) {
+    if (usuario) {
 
-      //obtengo datos del usuario
-      const usuario = JSON.parse(datos);
+     //obtengo datos del usuario
+     
       this.userId = usuario.id; 
       this.nombreUsuario = usuario.name;
 
@@ -78,11 +80,7 @@ export class ClosetsListComponent implements OnInit{
 
    crearCloset(): void {
     
-    //const datos = localStorage.getItem('user');
-          
-    //if(datos){
-      
-      //const usuario = JSON.parse(datos);
+
       
       const closet = {
             nombre: this.nombreCloset,

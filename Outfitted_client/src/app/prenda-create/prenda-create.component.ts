@@ -8,6 +8,7 @@ import { ICategoria } from '../interfaces/icategoria';
 import { IEstilo } from '../interfaces/iestilo';
 import { ITemporada } from '../interfaces/itemporada';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
 
 @Component({
   selector: 'app-prenda-create',
@@ -35,6 +36,7 @@ export class PrendaCreateComponent implements OnInit{
       private prendaService : DatosPrendasService,
       private router: Router,
       private route: ActivatedRoute,
+      private usuarioService: DatosUsuariosService,
 
     ) {
       this.myForm = new FormGroup({});
@@ -46,9 +48,8 @@ export class PrendaCreateComponent implements OnInit{
       this.idCloset = Number(this.route.snapshot.paramMap.get('id'));
       
       //obtengo datos del usuario
-      const datos = localStorage.getItem('user');
-        if (datos) {
-          const usuario = JSON.parse(datos);
+      const usuario = this.usuarioService.getUsuario();
+        if (usuario) {
           this.idUsuario = usuario.id;
         }
       

@@ -34,6 +34,7 @@ class RegistroController extends Controller
         ]);
     }
 
+    /*
     public function registrar2(Request $request)
     {
         $request->validate([
@@ -62,7 +63,27 @@ class RegistroController extends Controller
                 'user' => $user,
             ]);
         }
-    }
+    }*/
+
+    public function yaRegistrado($correo){
+        $usuario = User::where('email', $correo)->exists();
+
+        if ($usuario) {
+            return response()->json(['message' => 'Correo ya registrado'], 409);
+        }
+        
+        return response()->json(['message' => 'Correo disponible'], 200);
+}
+
+
+
+
+
+
+
+
+
+
     
     
 }

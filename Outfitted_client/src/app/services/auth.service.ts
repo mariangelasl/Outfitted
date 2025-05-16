@@ -28,4 +28,10 @@ export class AuthService {
     return this._http.get<IUsuario>(environment.apiUrl + 'api/login/usuario/' + correo,  { observe: 'response' });
     
   }
+
+  public yaRegistrado(correo:string): Observable<any>{
+
+    return this._http.get<IUsuario>(environment.apiUrl + 'api/registro/yaRegistrado/' + correo,  { observe: 'response' });
+    
+  }
 }

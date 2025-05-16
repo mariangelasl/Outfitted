@@ -1,37 +1,39 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { IUsuario } from '../../interfaces/iusuario';
-import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatosUsuariosService {
 
-  constructor(private _http:HttpClient) { }
+  public getUsuario(): any {
 
-  public getUsuarios(): Observable<HttpResponse<IUsuario[]>> {
-    
-    return this._http.get<IUsuario[]>(environment.apiUrl + 'api/usuarios',    { observe: 'response' });
-    
+    /*
+    const datos = localStorage.getItem('user');
+    return datos ? JSON.parse(datos) : null;*/
+
+    try {
+    if (typeof window !== 'undefined' && localStorage) {
+      const datos = localStorage.getItem('user');
+      return datos ? JSON.parse(datos) : null;
+    }
+    } catch (e) {
+      console.warn('No se pudo acceder a localStorage:', e);
+    }
+    return null;
   }
 
-  public updateUsuario(id:any, datos:any) {
-    return this._http.put<IUsuario>(environment.apiUrl + 'api/usuario/' +id,  datos,  { observe: 'response' });
+  public getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
-  public getUsuario(id:any) {
-    return this._http.get<IUsuario>(environment.apiUrl + 'api/usuario/' + id,    { observe: 'response' });
+  public guardarUsuario(user: any, token: string): void {
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
   }
 
-  public createUsuario(usuario:any): Observable<HttpResponse<IUsuario>> {
-    
-    return this._http.post<IUsuario>(environment.apiUrl + 'api/usuario/create',  usuario,  { observe: 'response' });
-    
-  }
+  public limpiarSesion(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  }  
 
-  public deleteUsuario(id:any) {
-    return this._http.delete<IUsuario>(environment.apiUrl + 'api/usuario/' +id,  { observe: 'response' });
-  }
 }

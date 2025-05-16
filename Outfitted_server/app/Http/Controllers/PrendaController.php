@@ -9,6 +9,7 @@ use App\Models\Prenda;
 use App\Models\Categoria;
 use App\Models\Temporada;
 use App\Models\Estilo;
+use App\Models\Estadistica;
 use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\File;
@@ -113,6 +114,7 @@ class PrendaController extends Controller
         
     }
 
+    /*
     function deletePrenda($id){
 
         //busco la prenda
@@ -125,6 +127,31 @@ class PrendaController extends Controller
             unlink($imagen); // Elimina el archivo
         }
     
+        $prenda->delete(); //elimina la prenda
+
+        return $prenda;
+    }*/
+
+    function deletePrenda($id){
+
+        //busco la prenda
+        $prenda = Prenda::find($id);
+
+        if ($prenda->imagen) {
+        //busco la imagen
+            $imagen = public_path('uploads/' . $prenda->imagen);
+
+            if (file_exists($imagen)) {
+                unlink($imagen); // Elimina el archivo
+            }
+        }
+
+        //elimino la prenda de estadisticas
+
+        Estadistica::where('prenda_id', $prenda->id)->delete();
+
+        $prenda->outfits()->detach();
+        
         $prenda->delete(); //elimina la prenda
 
         return $prenda;

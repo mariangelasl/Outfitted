@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Estadistica extends Model
 {
     //
     protected $guarded = [];
+
+    public function prenda(): BelongsTo {
+        
+    return $this->belongsTo(Prenda::class);
+    }
 }

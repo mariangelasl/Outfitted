@@ -10,9 +10,30 @@
            
         <section aria-labelledby="estadisticas" class="mb-4">
             <h2 id="estadisticas" class="h4 mb-4">Tus estadísticas</h2>
+            
             <div class="border border-secondary rounded p-3">
             
-            <p class="text-muted">uso de prendas</p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item mb-3">
+                <i class="bi bi-stars text-warning me-2"></i>
+                Tu prenda más usada:
+                <img *ngIf="prendaMasUsada?.prenda?.imagen_url" [src]="prendaMasUsada.prenda.imagen_url" class="img-thumbnail ms-2" width="60">
+                <span *ngIf="!prendaMasUsada"><b>No hay datos aún.</b></span>
+              </li>
+
+              <li class="list-group-item mb-3">
+                <i class="bi bi-stars text-warning me-2"></i>
+                Tu prenda menos usada:
+                <img *ngIf="prendaMenosUsada?.prenda?.imagen_url" [src]="prendaMenosUsada.prenda.imagen_url" class="img-thumbnail ms-2" width="60">
+                <span *ngIf="!prendaMenosUsada"><b>No hay datos aún.</b></span>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center mb-3">
+                <i class="bi bi-stars text-warning me-2"></i>
+                Color que más sueles usar: {{ colorMasUsado }}
+                <span *ngIf="!colorMasUsado"><b>No hay datos aún.</b></span>
+              </li>
+            </ul>
             </div>
         </section>
 
@@ -22,8 +43,34 @@
 
         <h2 id="sugerencias" class="h4 mb-3">Sugerencias personalizadas</h2>
         <div class="border border-secondary rounded p-3">
-          <!--Recomendaciones basadas en estadísticas -->
-          <p class="text-muted">[Recomendaciones de outfits]</p>
+          
+          <ul class="list-group list-group-flush">
+
+            <li class="list-group-item mb-3 pb-3">
+              <i class="bi bi-stars text-warning me-2"></i>
+              ¿Buscas qué ponerte? Aún no has usado estos outfits:
+
+              <ul class="mt-2 pe-3">
+                <li *ngFor="let outfit of outfitsSinUsar">
+                  <a [routerLink]="['/closet', outfit.closet_id]"
+                    [queryParams]="{ vista: 'outfits'}">
+                    {{ outfit.nombre }}
+                  </a>
+                </li>
+                <span *ngIf="outfitsSinUsar.length == 0"><b>No hay datos aún.</b></span>
+              </ul>
+            </li>
+
+            <li class="list-group-item">
+              <i class="bi bi-stars text-warning me-2"></i>
+              ¿Vas a crear un outfit? Aun no has usado estas prendas en tus combinaciones:
+              <div class="d-flex flex-wrap mt-2">
+                <img *ngFor="let prenda of prendasSinUsar" [src]="prenda.imagen_url" class="img-thumbnail me-2 mb-2" width="60">
+                <span *ngIf="prendasSinUsar.length == 0"><b>No hay datos aún.</b></span>
+
+              </div>
+            </li>
+          </ul>
         </div>
       </section>
 

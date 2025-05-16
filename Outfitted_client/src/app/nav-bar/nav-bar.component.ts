@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatosClosetsService } from '../services/closet/datos-closets.service';
+import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,15 +15,15 @@ export class NavBarComponent {
 
   constructor(private router: Router,
     private closetService: DatosClosetsService,
+    private usuarioService : DatosUsuariosService,
   ) {}
 
   //para crear un closet desde el navbar
 
   crearCloset(): void {
-    const datos = localStorage.getItem('user');
+    const usuario = this.usuarioService.getUsuario();
           
-    if(datos){
-      const usuario = JSON.parse(datos);
+    if(usuario){
       
       const closet = {
         nombre: this.nombreCloset,
@@ -45,13 +46,13 @@ export class NavBarComponent {
 
   //para saber si ha hecho login y mostrar los enlaces pertinentes
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token'); // verifico si hay token de inicio de sesion
+    return !!this.usuarioService.getToken(); // verifico si hay token de inicio de sesion
   }
   
   //para cerrar sesion
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    
+    this.usuarioService.limpiarSesion();
 
     //redirijo al inicio
     this.router.navigate(['/inicio']);

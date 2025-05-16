@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit{
 
   constructor(private authService: AuthService,
               private router: Router,
-              private formBuilder: FormBuilder) 
+              private formBuilder: FormBuilder,
+              private usuarioService: DatosUsuariosService,) 
 
   { this.myForm = new FormGroup({   }); }
 
@@ -46,8 +48,7 @@ export class LoginComponent implements OnInit{
               const user = res.body.user;
       
               //almaceno el usuario y el token
-              localStorage.setItem('token', token);
-              localStorage.setItem('user', JSON.stringify(user));
+              this.usuarioService.guardarUsuario(user, token);
       
               //reidirjo a la pagina de bienvenida
               this.router.navigate(['welcome']);

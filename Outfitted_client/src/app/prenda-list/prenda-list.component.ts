@@ -66,7 +66,7 @@ export class PrendaListComponent implements OnInit{
     //recojo el id del outfit a editar en caso de que venga de outfit-list
 
     this.route.queryParams.subscribe(params => {
-      if (params['editarOutfitId']) { //si hay un outfit para editar
+      if (params['editarOutfitId'] ) { //si hay un outfit para editar
         this.editarOutfitId = +params['editarOutfitId']; //guardo su id
         this.editar = true; //para cambiar de modo creacion a edicion
         this.cargarOutfit(this.editarOutfitId); //marco las casillas de las prendas que conforman el outfit que estoy editando
@@ -211,7 +211,11 @@ export class PrendaListComponent implements OnInit{
         this.editar = false;
 
         //recargo la lista
-        this.ngOnInit();
+        this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {}, // eliminamos los queryParams
+        replaceUrl: true
+        }).then(() => this.ngOnInit());
 
       }
     });

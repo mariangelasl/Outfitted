@@ -42,6 +42,24 @@ class ClosetController extends Controller
     //eliminar un closet
     function deleteCloset($id){
         $closet = Closet::find($id);
+
+        //elimino las prendas que estaban dentro del closet
+        //y sus estadisticas
+
+        foreach ($closet->prendas as $prenda) {
+        Estadistica::where('prenda_id', $prenda->id)->delete();
+        $prenda->delete();
+        }
+
+        //elimino los outfits, y tambien del calendario y de la tabla outfit_prenda
+        
+        foreach ($closet->outfits as $outfit) {
+            Calendario::where('outfit_id', $outfit->id)->delete();
+            $outfit->prendas()->detach();
+            $outfit->delete();
+        }
+        
+        //elimino el closet
         $closet->delete();
 
         return $closet;
