@@ -152,7 +152,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <!--el titulo depende de si venimos de editar el outfit o si queremos crear outfit-->
         <h5 class="modal-title">{{ editar ? 'Actualizar outfit' : 'Crear outfit' }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -164,8 +164,8 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary"
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-secondary"
         (click)="editar ? actualizarOutfit() : crearOutfit()" data-bs-dismiss="modal">
         Enviar
         </button>

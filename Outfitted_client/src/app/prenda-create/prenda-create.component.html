@@ -18,7 +18,7 @@
       <div class="form-group mb-3">
           <label for="imagen" class="form-label">Imagen:</label>
           <input class="form-control" type="file" id="imagen" aria-label="Sube la imagen de tu prenda" required
-                (change)="archivar($event)" [class.is-invalid]="!imagenSeleccionada && myForm.touched">
+                (change)="archivar($event)" [class.is-invalid]="imagenInvalida && myForm.touched">
       
 
           <div class="invalid-feedback">

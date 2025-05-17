@@ -14,7 +14,7 @@ export class DatosClosetsService {
   //obtengo todos los closets de ese usuario
   public getClosets(id:any): Observable<HttpResponse<ICloset[]>> {
     
-    return this._http.get<ICloset[]>(environment.apiUrl + 'api/closets/' + id,    { observe: 'response' });
+    return this._http.get<ICloset[]>(environment.apiUrl + 'api/closets/' + id,  { observe: 'response' });
     
   }
 
@@ -22,8 +22,8 @@ export class DatosClosetsService {
     return this._http.put<ICloset>(environment.apiUrl + 'api/closet/' +id,  datos,  { observe: 'response' });
   }
 
-  public getCloset(id:any) {
-    return this._http.get<ICloset>(environment.apiUrl + 'api/closet/' + id,    { observe: 'response' });
+  public getCloset(id:any, userId:any) {
+    return this._http.get<ICloset>(environment.apiUrl + 'api/closet/' + id + '?user_id=' + userId,   { observe: 'response' });
   }
 
   public createCloset(closet:any): Observable<HttpResponse<ICloset>> {
@@ -32,7 +32,7 @@ export class DatosClosetsService {
     
   }
 
-  public deleteCloset(id:any) {
-    return this._http.delete<ICloset>(environment.apiUrl + 'api/closet/' +id,  { observe: 'response' });
+  public deleteCloset(id:any, userId:any) {
+    return this._http.delete<ICloset>(environment.apiUrl + 'api/closet/' +id + '/delete?user_id=' + userId,   { observe: 'response' });
   }
 }

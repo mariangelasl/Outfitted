@@ -21,6 +21,11 @@ class DatabaseSeeder extends Seeder
         ]);*/
 
         $this->call([
+
+            //datos prueba
+            DatosPruebaSeeder::class,
+
+            //datos para los selects
             TemporadaSeeder::class,
             EstiloSeeder::class,
             CategoriaSeeder::class,

@@ -13,7 +13,9 @@
       <img src="/icons/open-closet.svg" alt="Closet Abierto" width="60" class="me-3">
       
       <h3 class="mb-0">{{ nombreCloset }}</h3>
-  
+      <span *ngIf="esCompartido" class="me-1" title="compartido contigo">
+              <i class="bi bi-person-add text-info" aria-hidden="true" title="compartido"></i>
+      </span> 
       <!--botones para editar o eliminar el closet-->
       <div class="ms-auto">
 
@@ -105,7 +107,16 @@
       </div>
 
       <div class="modal-body">
-        <p>¿Estás seguro de que quieres eliminar este armario?<br>Se eliminarán tambien todas sus prendas y outfits</p>
+        
+        <p *ngIf="!esCompartido">
+          ¿Estás seguro de que quieres eliminar este armario?<br>
+          Se eliminarán también todas sus prendas y outfits.
+        </p>
+        <p *ngIf="esCompartido">
+          ¿Quieres dejar de ver este armario compartido?<br>
+          Ya no estará disponible en tu lista.
+        </p>
+
       </div>
 
       <div class="modal-footer">

@@ -24,4 +24,16 @@ class Closet extends Model
     {
         return $this->hasMany(Outfit::class);
     }
+
+    /*
+    protected $appends = ['compartido'];
+
+    public function getCompartidoAttribute(){
+        
+        $userId = auth()->id(); 
+        return Compartido::where('closet_id', $this->id)
+                    ->where('user_id', $userId)
+                    ->exists();
+    }*/
+
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatosPrendasService } from '../services/prenda/datos-prendas.service';
 import { DatosOutfitsService } from '../services/outfit/datos-outfits.service';
 import { CompartidoService } from '../services/compartido/compartido.service';
+import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class ClosetComponent implements OnInit{
   cantidadPrendas: number = 0;
   cantidadOutfits: number = 0;
   vistaActual: string = 'prendas'; //para saber el contenido de que tab se muestra, por defecto muestra el listado de prendas
+  esCompartido: boolean = false;
+  userId: number = 0;
 
 
   //para compartir closets
@@ -40,6 +43,7 @@ export class ClosetComponent implements OnInit{
     private prendaService : DatosPrendasService,
     private outfitService : DatosOutfitsService,
     private compartidoService: CompartidoService,
+    private usuarioService : DatosUsuariosService,
   ) {}
 
 
@@ -57,10 +61,12 @@ export class ClosetComponent implements OnInit{
       }
     });
     
+    this.userId = this.usuarioService.getUsuario().id;
     //obtengo el nombre del closet
-    this.closetService.getCloset(this.idCloset).subscribe(resp => {
+    this.closetService.getCloset(this.idCloset, this.userId ).subscribe(resp => {
       if (resp.body) {
         this.nombreCloset = resp.body.nombre;
+        this.esCompartido = resp.body.compartido ?? false;
       }
     });
 
@@ -107,7 +113,7 @@ export class ClosetComponent implements OnInit{
   //elimina el closet
   eliminarCloset() {
     
-      this.closetService.deleteCloset(this.idCloset).subscribe(() => {
+      this.closetService.deleteCloset(this.idCloset, this.userId).subscribe(() => {
         this.router.navigate(['closets-list']);
       });
     

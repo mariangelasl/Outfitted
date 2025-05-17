@@ -27,6 +27,7 @@ export class PrendaCreateComponent implements OnInit{
     estilos: IEstilo[] = [];
     temporadas: ITemporada[] = [];
     imagenSeleccionada: File| null = null;
+    imagenInvalida: boolean = false;
 
     constructor(
       private categoriaService: DatosCategoriasService,
@@ -89,15 +90,14 @@ export class PrendaCreateComponent implements OnInit{
 
     onSubmit() {
 
-      if(this.myForm.valid){ //si todos los campos estan rellenos
+      this.imagenInvalida = !this.imagenSeleccionada;
+
+      if(this.myForm.valid && this.imagenSeleccionada){ //si todos los campos estan rellenos
 
       //agrego la informacion obtenida del form
       let prenda = new FormData();
 
-      if(this.imagenSeleccionada){
-        prenda.append('imagen', this.imagenSeleccionada);
-      }
-      
+      prenda.append('imagen', this.imagenSeleccionada);
       prenda.append('color', this.myForm.get('color')!.value);
       prenda.append('categoria_id', this.myForm.get('categoria_id')!.value);
       prenda.append('temporada_id', this.myForm.get('temporada_id')!.value);

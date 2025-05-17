@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Closet;
+use App\Models\Estadistica;
+use App\Models\Calendario;
+use App\Models\Compartido;
 
 class ClosetController extends Controller
 {
@@ -26,9 +30,19 @@ class ClosetController extends Controller
     }
 
     //obtener un closet por su id
-    function getCloset($id){
-        $closet = Closet::find($id); 
-        return $closet;
+    function getCloset(Request $request, $id){
+        $closet = Closet::find($id);
+        
+        $userId = $request->query('user_id'); 
+
+        Log::info('User ID: ' . $userId);
+
+        //saber si el closet fue compartido con el usuario
+        $closet->compartido = Compartido::where('closet_id', $id)
+                                    ->where('user_id', $userId)
+                                    ->exists();
+
+        return response()->json($closet);
     }
 
     //crear un closet
@@ -40,28 +54,48 @@ class ClosetController extends Controller
     }
 
     //eliminar un closet
-    function deleteCloset($id){
+    function deleteCloset(Request $request, $id){
         $closet = Closet::find($id);
 
-        //elimino las prendas que estaban dentro del closet
-        //y sus estadisticas
+        $userId = $request->query('user_id'); 
 
-        foreach ($closet->prendas as $prenda) {
-        Estadistica::where('prenda_id', $prenda->id)->delete();
-        $prenda->delete();
-        }
+        //es el propietario del closet, puede eliminarlo
+        if ($closet->user_id == $userId) {
+        
+            //elimino las prendas que estaban dentro del closet
+            //y sus estadisticas
+
+            foreach ($closet->prendas as $prenda) {
+                Estadistica::where('prenda_id', $prenda->id)->delete();
+                $prenda->delete();
+            }
 
         //elimino los outfits, y tambien del calendario y de la tabla outfit_prenda
         
-        foreach ($closet->outfits as $outfit) {
-            Calendario::where('outfit_id', $outfit->id)->delete();
-            $outfit->prendas()->detach();
-            $outfit->delete();
-        }
+            foreach ($closet->outfits as $outfit) {
+                Calendario::where('outfit_id', $outfit->id)->delete();
+                $outfit->prendas()->detach();
+                $outfit->delete();
+            }
         
-        //elimino el closet
-        $closet->delete();
+            //elimino el compartido
+
+            Compartido::where('closet_id', $closet->id)->delete();
+
+            //elimino el closet
+            $closet->delete();
 
         return $closet;
+        }
+
+        //si no es el propietario, sino un invitado
+
+        //eliminamos el closet de su lista de closets
+
+        Compartido::where('closet_id', $closet->id)
+              ->where('user_id', $userId)
+              ->delete();
+
+        return response()->json(['mensaje' => 'Closet removido de tu lista.']);
     }
 }

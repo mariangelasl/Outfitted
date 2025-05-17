@@ -70,7 +70,7 @@ Route::get('/closet/{id}', [ClosetController::class, 'getCloset']);
 
 Route::post('/closet/create', [ClosetController::class, 'createCloset']);
 
-Route::delete('/closet/{id}' , [ClosetController::class, 'deleteCloset']);
+Route::delete('/closet/{id}/delete' , [ClosetController::class, 'deleteCloset']);
 
 
 //compartido
