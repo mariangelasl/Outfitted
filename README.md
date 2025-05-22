@@ -1,4 +1,5 @@
-# Outfitted
+# <img src="Outfitted_client/public/logo.png" height="120" alt="logo Outfitted"> 
+
 
 **Outfitted** es una aplicación web desarrollada para digitalizar el armario de sus usuarios, permitiéndoles organizar sus prendas, crear combinaciones personalizadas (outfits) y planificar su uso a lo largo del mes gracias a un calendario integrado.
 
