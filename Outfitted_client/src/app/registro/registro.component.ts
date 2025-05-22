@@ -42,6 +42,8 @@ export class RegistroComponent implements OnInit{
     return;
     }
 
+    //compruebo si existe un usuario registrado con ese correo
+
       this.authService.yaRegistrado(datos.email).subscribe({
         next: () => {//si el correo esta disponible
 
@@ -59,7 +61,7 @@ export class RegistroComponent implements OnInit{
             this.errorMessage = 'Error al enviar el formulario';
           }
         });
-      },error: () => {
+      },error: () => { //si ya exis
             this.errorMessage = 'Este correo ya esta registrado';
           }
       });

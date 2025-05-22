@@ -73,7 +73,7 @@ class OutfitController extends Controller
 
         $outfit = Outfit::find($id);
 
-        //elimina las lineas en la tabla donde aparezca ese outfit (elimina la relacion)
+        //elimina la relacion de las prendas con el outfit a eliminar (en la tabla outfit_prenda)
         $outfit->prendas()->detach();
 
         //elimina el outfit

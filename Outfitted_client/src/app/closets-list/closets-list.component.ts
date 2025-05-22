@@ -21,6 +21,7 @@ export class ClosetsListComponent implements OnInit{
   nombreCloset : string = '';
   closetFilter: string ='';
   userId : number = 0;
+
   constructor(private closetService: DatosClosetsService,
               private router: Router,
               private compartidoService: CompartidoService,
@@ -79,8 +80,6 @@ export class ClosetsListComponent implements OnInit{
   //crear nuevo closet si se presiona el boton de 'nuevo armario'
 
    crearCloset(): void {
-    
-
       
       const closet = {
             nombre: this.nombreCloset,

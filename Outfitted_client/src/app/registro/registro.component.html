@@ -30,16 +30,20 @@
           aria-describedby="email-error"/>
 
           <div id="email-error" class="invalid-feedback">
+
+            <!-- si el error es que no ha rellenado el correo-->
             <span *ngIf="myForm.get('email')?.errors?.['required']">
               Debe rellenar este campo
             </span>
+
+            <!-- si el error es que no es el formato correcto de un correo-->
             <span *ngIf="myForm.get('email')?.errors?.['email']">
               El correo no es válido
             </span>
           </div>
         </div>
 
-        <!-- Contraseña -->
+        
         <div class="mb-4">
           <label for="password" class="form-label">Contraseña</label>
           
@@ -51,21 +55,27 @@
           />
 
           <div id="password-error" class="invalid-feedback">
+
+            <!--si no escribio contraseña-->
             <span *ngIf="myForm.get('password')?.errors?.['required']">
               Debe rellenar este campo
             </span>
+
+            <!--si la contraseña es muy corta-->
             <span *ngIf="myForm.get('password')?.errors?.['minlength']">
               La contraseña debe tener mínimo 8 caracteres
             </span>
           </div>
         </div>
 
+        <!--redirigimos al login a los usuarios ya registrados-->
        <div class="d-flex justify-content-between align-items-center mb-4">
           <a [routerLink]="['/login']" 
               class="small text-decoration-underline">
           ¿Ya tienes una cuenta?
           </a>
 
+          <!--el boton esta inhabilitado hasta que los campos esten rellenos y con datos correctos-->
           <button type="submit" class="btn btn-secondary" [disabled]="myForm.invalid">
             Registrarse
           </button>

@@ -28,7 +28,7 @@ export class PrendaListComponent implements OnInit{
 
   //para crear/editar outfit
   editarOutfitId: number = 0;
-  editar: boolean = false; //para diferenciar cuando se crea de cuando se edita el outfit
+  editar: boolean = false; //para diferenciar cuando se crea de cuando se edita el outfit en el listado
   prendasOutfit: number[] = [];
   nombreOutfit: string = '';
 
@@ -99,12 +99,10 @@ export class PrendaListComponent implements OnInit{
     
   }
 
-  //recargar el componente para limpiar filtros
+  //recargar el componente para limpiar filtros con el boton
 
   limpiarFiltros(){
     this.ngOnInit();
-
-    //si es necesario vaciar aqui tambien, antes de recargar
   }
 
   //obtengo el id de la prenda a eliminar
@@ -112,7 +110,7 @@ export class PrendaListComponent implements OnInit{
     this.idPrenda = id;
   }
 
-  //elimino la prenda
+  //elimino la prenda y sus relaciones
   eliminarPrenda(): void {
     this.prendaService.deletePrenda(this.idPrenda).subscribe({
       next: (data) => {
@@ -126,6 +124,7 @@ export class PrendaListComponent implements OnInit{
   //metodos para crear outfit
 
   //si seleccionan un checkbox
+
   seleccionada(id: number, event: any): void {
     if (event.target.checked) { //si la casilla esta marcada
       this.prendasOutfit.push(id); //agrego el id de la prenda al array de prendas que conformaran el outfit
@@ -162,7 +161,6 @@ export class PrendaListComponent implements OnInit{
         //refresco la lista
 
         this.ngOnInit();
-        //this.router.navigate(['closet', this.idCloset]);
 
       },
 
@@ -191,6 +189,7 @@ export class PrendaListComponent implements OnInit{
 
   //actualizo la info del outfit despues de editar
   actualizarOutfit(): void {
+
     if (this.editarOutfitId){
   
     const datos = {
@@ -201,8 +200,6 @@ export class PrendaListComponent implements OnInit{
   
     this.outfitService.updateOutfit(this.editarOutfitId, datos).subscribe({
       next: () => {
-       
-        console.log('Actualización completada');
 
         //vacio los valores luego de actualizar el outfit
         this.nombreOutfit = '';
@@ -213,7 +210,7 @@ export class PrendaListComponent implements OnInit{
         //recargo la lista
         this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: {}, // eliminamos los queryParams
+        queryParams: {}, // eliminamos los queryParams de editar
         replaceUrl: true
         }).then(() => this.ngOnInit());
 

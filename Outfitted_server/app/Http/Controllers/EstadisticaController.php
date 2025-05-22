@@ -18,76 +18,38 @@ class EstadisticaController extends Controller
 {
     //
 
-    //por id de prenda
-    function getEstadistica($id){
-        $estadistica = Estadistica::find($id); 
+    //estadisticas de una prenda
+    function getEstadistica($prenda_id){
+        $estadistica = Estadistica::find($prenda_id); 
         return $estadistica;
     }
-
-    /*
-    function getEstadisticas() {
-        return Estadistica::all();
-     }
-
-    function updateEstadistica(Request $request, $id) {
-        
-        $estadistica = Estadistica::find($id);
-        $estadistica->update($request->all());
-  
-        return $estadistica;
-    }
-
-    function createEstadistica(Request $request){
-        
-        $estadistica = Estadistica::create($request->all());
-        return $estadistica;
-        
-    }
-
-    function deleteEstadistica($id){
-        $estadistica = Estadistica::find($id);
-        $estadistica->delete();
-
-        return $estadistica;
-    }*/
  
-
-    function getMasUsada($user_id){ //prenda mas usada
-
-       /*$estadistica =  Estadistica::with('prenda')
-       ->where('prendas.user_id', $user_id)
-       ->select('estadisticas.*', 'prendas.imagen as imagen_url')
-       ->orderBy('estadisticas.veces', 'desc')->first();
-
-       //dd($estadistica);
-        Log::info('Mas usada', ['data' => $estadistica]);*/
+    //obtengo la prenda mas usada por ese usuario
+    function getMasUsada($user_id){ 
 
         $estadistica = Estadistica::with('prenda')
                     ->whereHas('prenda', function ($query) use ($user_id) {
                             $query->where('user_id', $user_id);
                     })
                     ->orderBy('veces', 'desc')->first();
-       return $estadistica;
 
+       return $estadistica;
     }
 
-    function getMenosUsada($user_id){ //prenda menos usada
+    //obtengo la prenda menos usada por ese usuario
 
-      /* $estadistica =  Estadistica::join('prendas', 'estadisticas.prenda_id', '=', 'prendas.id')
-       ->where('prendas.user_id', $user_id)
-       ->select('estadisticas.*', 'prendas.imagen as imagen_url')
-       ->orderBy('estadisticas.veces', 'asc')->first();
-
-        Log::info('Menos usada', ['data' => $estadistica]);*/
+    function getMenosUsada($user_id){
 
         $estadistica = Estadistica::with('prenda')
                     ->whereHas('prenda', function ($query) use ($user_id) {
                             $query->where('user_id', $user_id);
                     })
                     ->orderBy('veces', 'asc')->first();
+
        return $estadistica;
     }
 
+    //color mas usado en predas
     function getColor($user_id){
 
         $color = Estadistica::join('prendas', 'estadisticas.prenda_id', '=' , 'prendas.id')
@@ -97,46 +59,49 @@ class EstadisticaController extends Controller
         ->orderBy('total_usos' , 'desc')
         ->first();
 
-         Log::info('color', ['data' => $color]);
         return $color;
     }
 
-
+    //outfits que se crearon pero aun no han sido agregados al calendario para usarlos
 
     function outfitSinUsar($user_id){
         $usados = Calendario::where('user_id', $user_id)->pluck('outfit_id');
 
         $closetsUser = Closet::where('user_id', $user_id)->pluck('id');
 
+        //los outfits cuyo id no este en los ids de outfits usados 
         $sinUsar = Outfit::whereNotIn('id', $usados)
                     ->whereIn('closet_id', $closetsUser)
-                    ->get(); //los outfits cuyo id no este en los outfits usados 
+                    ->get(); 
 
         return $sinUsar;
     }
 
-    function outfitAntiguoSinUsar($user_id){
-        $usados = Calendario::where('user_id', $user_id)->pluck('outfit_id');
 
-        $haceUnaSemana = Carbon::now()->subDays(7);
-
-        $sinUsar = Outfit::whereNotIn('id', $usados)
-                    ->where('created_at', '<=', $haceUnaSemana)
-                    ->get();
-
-        return $sinUsar->pluck('nombre');
-    }
-
+    //obtenemos prendas que se han creado pero que aun no pertenecen a ningun outfit
     function prendaSinUsar($user_id){
 
-        //que no esten en la tabla outfits_prendas
-
+        //ids de las prendas que se han usado
         $usadas = DB::table('outfit_prenda')->pluck('prenda_id');
 
         $sinUsar = Prenda::where('user_id', $user_id)
                 ->whereNotIn('id', $usadas)->get();
 
         return $sinUsar;
+    }
+
+
+    //outfits que se crearon hace una semana y aun no se usan
+    function outfitAntiguoSinUsar($user_id){
+        $usados = Calendario::where('user_id', $user_id)->pluck('outfit_id');
+
+        $haceUnaSemana = Carbon::now()->subDays(7);
+
+        $sinUsar = Outfit::whereNotIn('id', $usados)
+                    ->where('created_at', '=>', $haceUnaSemana)
+                    ->get();
+
+        return $sinUsar->pluck('nombre');
     }
 
 }

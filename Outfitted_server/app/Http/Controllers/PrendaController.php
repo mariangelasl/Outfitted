@@ -10,11 +10,10 @@ use App\Models\Categoria;
 use App\Models\Temporada;
 use App\Models\Estilo;
 use App\Models\Estadistica;
-use Illuminate\Support\Str;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Log;
 
 class PrendaController extends Controller
 {
@@ -24,12 +23,12 @@ class PrendaController extends Controller
         $prendas = Prenda::with(['categoria', 'temporada', 'estilo'])
         ->where('closet_id', $closet_id)->get();
         return $prendas;
-     }
+    }
 
     //actualizar la info de una prenda
     function updatePrenda(Request $request, $id) {
         
-        //valido lo recibido del form
+        //valido lo recibido del form de edicion
         $validated = $request->validate([
             'color' => 'required|string',
             'categoria_id' => 'required|integer',
@@ -65,7 +64,7 @@ class PrendaController extends Controller
             //muevo el archivo a la carpeta uploads
             $file->move(public_path('uploads/'), $filename);
 
-            //agrego el nuevo nombre de imagen al objeto
+            //agrego el nuevo nombre de imagen
             $validated['imagen'] = $filename;
         
         }        
@@ -76,7 +75,7 @@ class PrendaController extends Controller
         return $prenda;
     }
 
-
+    //obtener una prenda por su id
     function getPrenda($id){
         $prenda = Prenda::with(['categoria', 'temporada', 'estilo'])->find($id); 
         return $prenda;
@@ -103,35 +102,22 @@ class PrendaController extends Controller
         //recojo y almaceno la imagen de la prenda
         if ($request->file('imagen')) {
             $file = $request->file('imagen');
+
+            //le doy un nombre personalizado al archivo 
             $filename = Str::slug($usuario->name, '-') . '_' . Str::slug($closet->nombre, '-'). '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            
             $file->move(public_path('uploads/'), $filename);
             $validated['imagen'] = $filename;
         
         }
         
+        //ccreo la prenda con los datos validados
         $prenda = Prenda::create($validated);
         return $prenda;
         
     }
 
-    /*
-    function deletePrenda($id){
-
-        //busco la prenda
-        $prenda = Prenda::find($id);
-
-        //busco la imagen
-        $imagen = public_path('uploads/' . $prenda->imagen);
-
-        if (file_exists($imagen)) {
-            unlink($imagen); // Elimina el archivo
-        }
-    
-        $prenda->delete(); //elimina la prenda
-
-        return $prenda;
-    }*/
-
+    //eliminar una prenda y sus estadisticas de uso
     function deletePrenda($id){
 
         //busco la prenda
@@ -150,6 +136,7 @@ class PrendaController extends Controller
 
         Estadistica::where('prenda_id', $prenda->id)->delete();
 
+        //elimino la prenda de outfit_prenda
         $prenda->outfits()->detach();
         
         $prenda->delete(); //elimina la prenda

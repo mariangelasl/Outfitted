@@ -7,10 +7,6 @@ export class DatosUsuariosService {
 
   public getUsuario(): any {
 
-    /*
-    const datos = localStorage.getItem('user');
-    return datos ? JSON.parse(datos) : null;*/
-
     try {
     if (typeof window !== 'undefined' && localStorage) {
       const datos = localStorage.getItem('user');

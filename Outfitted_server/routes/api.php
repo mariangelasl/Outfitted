@@ -36,16 +36,6 @@ Route::get('/user', function (Request $request) {
 
 //calendario
 
-Route::get('/calendarios', [CalendarioController::class, 'getCalendarios']);
-
-Route::put('/calendario/{id}', [CalendarioController::class, 'updateCalendario']);
-
-Route::get('/calendario/{id}', [CalendarioController::class, 'getCalendario']);
-
-//Route::post('/calendario/create', [CalendarioController::class, 'createCalendario']);
-
-Route::delete('/calendario/{id}' , [CalendarioController::class, 'deleteCalendario']);
-
 Route::get('/calendario/usuario/{usuarioId}/{mes}/{anyo}', [CalendarioController::class, 'eventosMes']);
 
 Route::post('/calendario/create', [CalendarioController::class, 'crearEvento']);
@@ -78,19 +68,17 @@ Route::delete('/closet/{id}/delete' , [ClosetController::class, 'deleteCloset'])
 
 Route::get('/compartidos/{userid}', [CompartidoController::class, 'getCompartidos']);
 
+Route::post('/compartido/create', [CompartidoController::class, 'compartirCloset']);
+
+
 Route::put('/compartido/{id}', [CompartidoController::class, 'updateCompartido']);
 
 Route::get('/compartido/{id}', [CompartidoController::class, 'getCompartido']);
-
-Route::post('/compartido/create', [CompartidoController::class, 'compartirCloset']);
 
 Route::delete('/compartido/{id}' , [CompartidoController::class, 'deleteCompartido']);
 
 
 //estadisticas
-
-
-Route::get('/estadisticas', [EstadisticaController::class, 'getEstadisticas']);
 
 Route::get('/estadistica/{id}', [EstadisticaController::class, 'getEstadistica']);
 
@@ -103,12 +91,14 @@ Route::get('/estadistica/color/{id}', [EstadisticaController::class, 'getColor']
 Route::get('/estadistica/outfits/{id}', [EstadisticaController::class, 'outfitSinUsar']);
 
 Route::get('/estadistica/prendas/{id}', [EstadisticaController::class, 'prendaSinUsar']);
-//estilos
 
+
+//estilos
 
 Route::get('/estilos', [EstiloController::class, 'getEstilos']);
 
 Route::get('/estilo/{id}', [EstiloController::class, 'getEstilo']);
+
 
 //outfits
 

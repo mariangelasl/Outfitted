@@ -21,8 +21,7 @@ class DatosPruebaSeeder extends Seeder
      */
     public function run(): void
     {
-        //las imagenes estan en la carpeta uploads
-
+    
         //creo un usuario de prueba
 
         $usuario = User::create([
@@ -53,15 +52,18 @@ class DatosPruebaSeeder extends Seeder
             'user_id' => $usuario->id
         ]);
 
-        //comparto el closet con el invitado
+
+        //comparto el closet verano (closet 1) con el invitado
 
         Compartido::create([
             'closet_id' => $closet1->id,
             'user_id' => $invitado->id
         ]);
 
+
         //creo algunas prendas en el closet 1
 
+        //las imagenes para los datos de prueba estan en la carpeta uploads
 
         $prenda1 = Prenda::create([
             'imagen' => 'outfit1.jpg',
@@ -83,7 +85,8 @@ class DatosPruebaSeeder extends Seeder
             'user_id' => $usuario->id,
         ]);
 
-        //outfit con las prendas
+
+        //creo un outfit con esas prendas
 
         $outfit = Outfit::create([
             'nombre' => 'Outfit playa',

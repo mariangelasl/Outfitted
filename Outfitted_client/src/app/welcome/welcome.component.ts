@@ -34,20 +34,22 @@ export class WelcomeComponent implements OnInit{
       const id = usuario.id;
 
     this.estadisticaService.getPrendaMasUsada(id).subscribe(resp =>{
-      console.log('mas usada', resp);
+      
       if (resp) 
         this.prendaMasUsada = resp.body;
     });
 
     this.estadisticaService.getPrendaMenosUsada(id).subscribe(resp =>{
-      console.log('menos usada', resp); 
+     
       this.prendaMenosUsada = resp.body;
     });
 
-    this.estadisticaService.getColorMasUsado(id).subscribe(c => 
-      {console.log('color', c); 
-        this.colorMasUsado = c?.color});    
+    this.estadisticaService.getColorMasUsado(id).subscribe(c => {
+        this.colorMasUsado = c?.color
+    });    
     
+    //para que solo muestre 5 prendas y 5 outfits
+
     this.estadisticaService.getOutfitsSinUsar(id).subscribe(o => this.outfitsSinUsar = o.slice(0, 5));
     this.estadisticaService.getPrendasSinUsar(id).subscribe(p => this.prendasSinUsar = p.slice(0, 5));
     }

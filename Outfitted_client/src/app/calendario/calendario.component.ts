@@ -33,7 +33,7 @@ export class CalendarioComponent implements OnInit {
 
   ngOnInit(): void {
 
-//obtengo el usuario
+    //obtengo el usuario
     const usuario = this.usuarioService.getUsuario();
     if (usuario) {
       this.usuarioId = usuario.id;
@@ -50,10 +50,9 @@ export class CalendarioComponent implements OnInit {
     const año = this.viewDate.getFullYear();
     const mes = this.viewDate.getMonth() + 1;
 
-//obtengo los outfits
+    //obtengo los outfits
     this.calendarioService.getEventosMes(this.usuarioId, mes, año).subscribe(resp => {
       if (resp.body) {
-        console.log('Eventos recibidos:', resp.body);
 
         this.events = resp.body.map((evento: any) => ({
           id: evento.id,
@@ -70,12 +69,13 @@ export class CalendarioComponent implements OnInit {
     });
   }
 
-//si selecciona un outfit, lo lleva a la lista de outfits fltrando por el nombre del outfit seleccionado
+  //al seleccionar un evento, redirige a la lista de outfits fltrando por el nombre del outfit seleccionado
+
   handleEvent(event: CalendarEvent): void {
     const closetId = event.meta?.closetId;
-
-    console.log(closetId);
     const nombreOutfit = event.title;
+
+    //redirijo al componente closet, en la tab de outfits 
 
     this.router.navigate(['/closet', closetId], {
     queryParams: {
@@ -85,7 +85,7 @@ export class CalendarioComponent implements OnInit {
   });
   }
 
-//cambiar entre meses
+  //cambiar entre meses
   cambiarMes(direccion: 'anterior' | 'siguiente'): void {
     const cambio = direccion === 'anterior' ? -1 : 1;
     this.viewDate = addMonths(this.viewDate, cambio);
@@ -98,11 +98,16 @@ export class CalendarioComponent implements OnInit {
   }
 
   //obtener colores distintos para los outfits que se muestran en el calendario
+
   getColorEvento(outfitId: number): { primary: string; secondary: string } {
-  const colores = ['#1abc9c', '#3498db', '#9b59b6', '#e67e22', '#e74c3c', '#2ecc71']; //cambiar colores
+
+  //colores posibles
+  const colores = ['#1abc9c', '#3498db', '#9b59b6', '#e67e22', '#e74c3c', '#2ecc71']; 
+
+  //color segun id del outfit
   const color = colores[outfitId % colores.length];
-  return { primary: color, secondary: color }; //para que primary y secondary?
+  
+  return { primary: color, secondary: color }; 
   }
 
-  //primary es el borde y secondary el fondo
 }

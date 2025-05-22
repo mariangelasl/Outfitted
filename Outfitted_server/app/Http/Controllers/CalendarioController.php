@@ -13,38 +13,8 @@ use Carbon\Carbon;
 class CalendarioController extends Controller
 {
     //
-    function getCalendarios() {
-        return Calendario::all();
-    }
 
-    function updateCalendario(Request $request, $id) {
-        
-        $calendario = Calendario::find($id);
-        $calendario->update($request->all());
-  
-        return $calendario;
-    }
-
-    function getCalendario($id){
-        $calendario = Calendario::find($id); 
-        return $calendario;
-    }
-
-    function createCalendario(Request $request){
-        
-        $calendario = Calendario::create($request->all());
-        return $calendario;
-        
-    }
-
-    function deleteCalendario($id){
-        $calendario = Calendario::find($id);
-        $calendario->delete();
-
-        return $calendario;
-    }
-
-
+    //añadir un outfit al calendario
     public function crearEvento(Request $request){
     $validated = $request->validate([
         'outfit_id' => 'required|exists:outfits,id',
@@ -72,9 +42,14 @@ class CalendarioController extends Controller
         //si ya esta la prenda en la tabla
         if($yaExistente){
             $yaExistente->veces +=1; //aumento las veces que se ha usado
-            $yaExistente->fechaUso = $validated['fechaInicio']; //reemplazo la fecha de uso
+
+            if($yaExistente->fechaUso < $validated['fechaInicio']){
+                 $yaExistente->fechaUso = $validated['fechaInicio']; //reemplazo la fecha de uso por la mas reciente
+            }
+           
             $yaExistente->save(); //guardo los cambios
-        } else{
+
+        } else{ //si la prenda se esta usando por primera vez
 
             //creo el registro en la tabla
 
@@ -85,11 +60,14 @@ class CalendarioController extends Controller
             ]);
         }
     }
-    return $evento;
+        return $evento;
     }  
 
+    //obtener los outfits de un determinado mes
 
     public function eventosMes($id, $mes, $anio){
+
+    //inicio y fin del mes
     $inicio = Carbon::create($anio, $mes, 1)->startOfMonth();
     $fin = Carbon::create($anio, $mes, 1)->endOfMonth();
 
@@ -97,6 +75,8 @@ class CalendarioController extends Controller
 
     $outfitIds = Outfit::whereIn('closet_id', $closetIds)->pluck('id');
 
+    //todos los outfits del usuario cuya fechas de inicio este en ese mes
+    
     $eventos = Calendario::with('outfit.closet')
         ->whereIn('outfit_id', $outfitIds)
         ->whereBetween('fechaInicio', [$inicio, $fin])

@@ -13,14 +13,19 @@
       <img src="/icons/open-closet.svg" alt="Closet Abierto" width="60" class="me-3">
       
       <h3 class="mb-0">{{ nombreCloset }}</h3>
-      <span *ngIf="esCompartido" class="me-1" title="compartido contigo">
-              <i class="bi bi-person-add text-info" aria-hidden="true" title="compartido"></i>
+
+      <!--icon para indicar closet compartido-->
+      <span *ngIf="esCompartido" class="me-1">
+              <i class="bi bi-person-add text-info" aria-hidden="true" title="compartido contigo"></i>
       </span> 
-      <!--botones para editar o eliminar el closet-->
+
+
+      <!--botones para editar, eliminar o compartir el closet-->
+
       <div class="ms-auto">
 
         <!--boton para compartir armario-->
-        <!--abre un modal para indicar el correo de la persona invitada-->
+        <!--abre un modal para introducir el correo del usuario invitado-->
 
         <button class="btn btn-outline-info btn-sm me-2" 
               title="compartir armario" aria-label="Compartir armario"
@@ -30,25 +35,28 @@
         <i class="bi bi-person-add"></i>
         </button>
 
+        
         <!--abre un modal para editar el nombre del closet-->
         <button class="btn btn-outline-warning btn-sm me-2" 
                 data-bs-toggle="modal" data-bs-target="#editarClosetModal"
                 (click)="mostrarNombre()"
-                aria-label="editar closet" title="editar armario">
+                aria-label="editar armario" title="editar armario">
           <i class="bi bi-pencil"></i>
         </button>
 
         <!--abre un modal para pedir confirmacion para eliminar-->
-        <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarClosetModal" aria-label="eliminar armario" title="eliminar armario">
+        <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarClosetModal"
+                aria-label="eliminar armario" title="eliminar armario">
           <i class="bi bi-trash"></i>
         </button>
       </div>
 
     </div>
 
-    <!-- Info sobre cantidad prendas y outfits dentro del closet-->
+    <!-- Info sobre cantidad prendas y outfits dentro del closet -->
     <p class="text-muted pb-4 text-secondary">({{ cantidadPrendas }} prendas - {{ cantidadOutfits }} outfits)</p>
   
+
     <!-- Tabs para cambiar entre ver todas las prendas o ver todos los outfits -->
 
     <ul class="nav nav-tabs" role="tablist" id="closetTabList">
@@ -108,10 +116,13 @@
 
       <div class="modal-body">
         
+        <!--Si el armario es propio, al eliminarlo se borra todo su contenido-->
         <p *ngIf="!esCompartido">
           ¿Estás seguro de que quieres eliminar este armario?<br>
           Se eliminarán también todas sus prendas y outfits.
         </p>
+
+        <!--Si es un closet compartido contigo, al 'eliminar' solo lo quitas de tu closet-list-->
         <p *ngIf="esCompartido">
           ¿Quieres dejar de ver este armario compartido?<br>
           Ya no estará disponible en tu lista.

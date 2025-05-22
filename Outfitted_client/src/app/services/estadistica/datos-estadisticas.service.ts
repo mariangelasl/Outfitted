@@ -11,12 +11,6 @@ export class DatosEstadisticasService {
 
   constructor(private _http:HttpClient) { }
 
-  public getEstadisticas(): Observable<HttpResponse<IEstadistica[]>> {
-    
-    return this._http.get<IEstadistica[]>(environment.apiUrl + 'api/estadisticas',    { observe: 'response' });
-    
-  }
-
   public getEstadistica(id:any) {
     return this._http.get<IEstadistica>(environment.apiUrl + 'api/estadistica/' + id,    { observe: 'response' });
   }

@@ -10,6 +10,7 @@ class Closet extends Model
 {
     //
     protected $guarded = [];
+    
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -24,16 +25,5 @@ class Closet extends Model
     {
         return $this->hasMany(Outfit::class);
     }
-
-    /*
-    protected $appends = ['compartido'];
-
-    public function getCompartidoAttribute(){
-        
-        $userId = auth()->id(); 
-        return Compartido::where('closet_id', $this->id)
-                    ->where('user_id', $userId)
-                    ->exists();
-    }*/
 
 }

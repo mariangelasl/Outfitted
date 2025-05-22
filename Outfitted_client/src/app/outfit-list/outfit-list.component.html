@@ -4,9 +4,10 @@
    <p class="text-center">Aún no hay outfits en este armario</p>
   </div>
 
-  <!--filtro para buscar outfit por nombre-->
+  
   <div class="row mb-5" *ngIf="outfits.length>0">
 
+    <!--filtro para buscar outfit por nombre-->
     <div class="col text-end">
       <h3>Filtrado por: {{outfitFilter}}</h3>
       <input type="text" [(ngModel)] = "outfitFilter" placeholder="Nombre del outfit" aria-label="filtrar por nombre del outfit">
@@ -19,7 +20,9 @@
     
         <div class="card h-100">
 
-            <!--cabecera de la tarjeta. Incluye el nombre del outift y los botones para editarlo o eliminarlo-->
+            <!--cabecera de la tarjeta-->
+
+            <!--Incluye el nombre del outift y los botones para editarlo, eliminarlo o añadirlo al calendario-->
             <div class="card-header bg-primary d-flex justify-content-between align-items-center">
               <strong>{{ outfit.nombre }}</strong>
               
@@ -34,7 +37,9 @@
                 <i class="bi bi-calendar"></i>
                 </button>
 
+                <!--boton para editar el outfit-->
                 <!--lleva a la lista de prendas del closet, donde se creo el outfit-->
+
                 <button class="btn btn-outline-warning btn-sm me-1"
                       [routerLink]="['/closet', outfit.closet_id]" 
                       [queryParams]="{ vista:'prendas', editarOutfitId: outfit.id }"
@@ -59,8 +64,7 @@
               <div class="row row-cols-md-3 g-2">
                 <div *ngFor="let prenda of outfit.prendas" class="col">
                   <img [src]="prenda.imagen_url"
-                     class="img-thumbnail foto-prenda"
-                  >
+                     class="img-thumbnail foto-prenda">
                 </div>
               </div>
             </div>

@@ -44,8 +44,8 @@ class Prenda extends Model
 
     protected $appends = ['imagen_url'];
 
-    public function getImagenUrlAttribute()
-    {
+    //devuelve donde se encuentra la imagen de la prenda
+    public function getImagenUrlAttribute(){
         return url('uploads/' . $this->imagen);
     }
 }

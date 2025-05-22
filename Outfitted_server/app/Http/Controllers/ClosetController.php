@@ -31,11 +31,10 @@ class ClosetController extends Controller
 
     //obtener un closet por su id
     function getCloset(Request $request, $id){
+
         $closet = Closet::find($id);
         
         $userId = $request->query('user_id'); 
-
-        Log::info('User ID: ' . $userId);
 
         //saber si el closet fue compartido con el usuario
         $closet->compartido = Compartido::where('closet_id', $id)
@@ -55,6 +54,8 @@ class ClosetController extends Controller
 
     //eliminar un closet
     function deleteCloset(Request $request, $id){
+
+        ///busco el closet por su id
         $closet = Closet::find($id);
 
         $userId = $request->query('user_id'); 
@@ -88,9 +89,7 @@ class ClosetController extends Controller
         return $closet;
         }
 
-        //si no es el propietario, sino un invitado
-
-        //eliminamos el closet de su lista de closets
+        //si no es el propietario, sino un invitado, eliminamos el closet solo para el
 
         Compartido::where('closet_id', $closet->id)
               ->where('user_id', $userId)

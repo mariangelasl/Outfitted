@@ -17,21 +17,8 @@ export class DatosTemporadasService {
     
   }
 
-  public updateTemporada(id:any, datos:any) {
-    return this._http.put<ITemporada>(environment.apiUrl + 'api/temporada/' +id,  datos,  { observe: 'response' });
-  }
-
   public getTemporada(id:any) {
     return this._http.get<ITemporada>(environment.apiUrl + 'api/temporada/' + id,    { observe: 'response' });
   }
 
-  public createTemporada(temporada:any): Observable<HttpResponse<ITemporada>> {
-    
-    return this._http.post<ITemporada>(environment.apiUrl + 'api/temporada/create',  temporada,  { observe: 'response' });
-    
-  }
-
-  public deleteTemporada(id:any) {
-    return this._http.delete<ITemporada>(environment.apiUrl + 'api/temporada/' +id,  { observe: 'response' });
-  }
 }

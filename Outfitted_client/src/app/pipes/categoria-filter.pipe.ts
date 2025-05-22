@@ -8,7 +8,7 @@ import { IPrenda } from '../interfaces/iprenda';
 export class CategoriaFilterPipe implements PipeTransform {
 
   transform(prendas: IPrenda[], filterBy: number): IPrenda[] {
-      //filterBy = filterBy ? filterBy.toLowerCase() : '';
+      
       return filterBy ? prendas.filter((prenda) =>{
         return prenda.categoria_id == filterBy;
       }) : prendas;

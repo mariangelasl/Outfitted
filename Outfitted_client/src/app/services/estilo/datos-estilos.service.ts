@@ -17,21 +17,8 @@ export class DatosEstilosService {
     
   }
 
-  public updateEstilo(id:any, datos:any) {
-    return this._http.put<IEstilo>(environment.apiUrl + 'api/estilo/' +id,  datos,  { observe: 'response' });
-  }
-
   public getEstilo(id:any) {
     return this._http.get<IEstilo>(environment.apiUrl + 'api/estilo/' + id,    { observe: 'response' });
   }
 
-  public createEstilo(estilo:any): Observable<HttpResponse<IEstilo>> {
-    
-    return this._http.post<IEstilo>(environment.apiUrl + 'api/estilo/create',  estilo,  { observe: 'response' });
-    
-  }
-
-  public deleteEstilo(id:any) {
-    return this._http.delete<IEstilo>(environment.apiUrl + 'api/estilo/' +id,  { observe: 'response' });
-  }
 }

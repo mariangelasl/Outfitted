@@ -13,11 +13,11 @@ export class CompartidoService {
 
   compartirCloset(datos: any): Observable<any> {
     return this._http.post(environment.apiUrl + 'api/compartido/create',  datos,  { observe: 'response' });
-}
+  }
 
-getCompartidos(id: number): Observable<HttpResponse<ICloset[]>> {
+  getCompartidos(id: number): Observable<HttpResponse<ICloset[]>> {
     return this._http.get<ICloset[]>(environment.apiUrl + 'api/compartidos/' + id,    { observe: 'response' });
 
-}
+  }
 
 }

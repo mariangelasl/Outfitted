@@ -20,7 +20,7 @@ export class ClosetComponent implements OnInit{
   nombreCloset: string = '';
   cantidadPrendas: number = 0;
   cantidadOutfits: number = 0;
-  vistaActual: string = 'prendas'; //para saber el contenido de que tab se muestra, por defecto muestra el listado de prendas
+  vistaActual: string = 'prendas'; //para saber que tab se muestra, por defecto muestra el listado de prendas
   esCompartido: boolean = false;
   userId: number = 0;
 
@@ -31,7 +31,8 @@ export class ClosetComponent implements OnInit{
   mensajeError:string='';
   mensajeExito:string='';
 
-  //para redirigir del calendario
+
+  //para redirigir al closet-list desde el calendario
 
   filtroOutfit: string = '';
 
@@ -49,8 +50,11 @@ export class ClosetComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.idCloset = +this.route.snapshot.paramMap.get('id')!; //id del closet que seleccionamos en el listado
+    //id del closet que seleccionamos en el listado
+    this.idCloset = +this.route.snapshot.paramMap.get('id')!; 
     
+
+    //recojo parametros desde eventos del calendario
     this.route.queryParams.subscribe(params => {
       if (params['vista']) {
         this.vistaActual = params['vista'];
@@ -61,8 +65,10 @@ export class ClosetComponent implements OnInit{
       }
     });
     
+
     this.userId = this.usuarioService.getUsuario().id;
-    //obtengo el nombre del closet
+
+    //obtengo los datos del closet 
     this.closetService.getCloset(this.idCloset, this.userId ).subscribe(resp => {
       if (resp.body) {
         this.nombreCloset = resp.body.nombre;
@@ -92,12 +98,12 @@ export class ClosetComponent implements OnInit{
   
   }
 
-  //muestra el nombre actual del closet en el modal
+  //muestra el nombre actual del closet en el modal de edicion
   mostrarNombre(){
     this.nuevoNombre = this.nombreCloset;
   }
 
-  //almacena el nuevo nombre del closet (que se escribio en el minput del modal)
+  //almacena el nuevo nombre del closet (que se escribio en el input del modal)
 
   editarCloset() {
     
@@ -110,7 +116,7 @@ export class ClosetComponent implements OnInit{
       });
   }
 
-  //elimina el closet
+  //elimina el closet y luego redirige al listado 
   eliminarCloset() {
     
       this.closetService.deleteCloset(this.idCloset, this.userId).subscribe(() => {
