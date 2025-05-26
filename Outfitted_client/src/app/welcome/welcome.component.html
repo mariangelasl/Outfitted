@@ -17,14 +17,22 @@
               <li class="list-group-item mb-3">
                 <i class="bi bi-stars text-warning me-2"></i>
                 Tu prenda más usada:
-                <img *ngIf="prendaMasUsada?.prenda?.imagen_url" [src]="prendaMasUsada.prenda.imagen_url" class="img-thumbnail ms-2" width="60">
+                <img *ngIf="prendaMasUsada?.prenda?.imagen_url" [src]="prendaMasUsada.prenda.imagen_url" 
+                      class="img-thumbnail ms-2" width="60"
+                      data-bs-toggle="modal" 
+                      data-bs-target="#modalMasUsada">
+
                 <span *ngIf="!prendaMasUsada"><b>No hay datos aún.</b></span>
               </li>
 
               <li class="list-group-item mb-3">
                 <i class="bi bi-stars text-warning me-2"></i>
                 Tu prenda menos usada:
-                <img *ngIf="prendaMenosUsada?.prenda?.imagen_url" [src]="prendaMenosUsada.prenda.imagen_url" class="img-thumbnail ms-2" width="60">
+                <img *ngIf="prendaMenosUsada?.prenda?.imagen_url" [src]="prendaMenosUsada.prenda.imagen_url" 
+                      class="img-thumbnail ms-2" width="60"
+                      data-bs-toggle="modal" 
+                      data-bs-target="#modalMenosUsada">
+
                 <span *ngIf="!prendaMenosUsada"><b>No hay datos aún.</b></span>
               </li>
 
@@ -37,6 +45,8 @@
             </div>
         </section>
 
+
+        
       <!--Sugerencias -->
 
       <section aria-labelledby="sugerencias">
@@ -65,7 +75,11 @@
               <i class="bi bi-stars text-warning me-2"></i>
               ¿Vas a crear un outfit? Aun no has usado estas prendas en tus combinaciones:
               <div class="d-flex flex-wrap mt-2">
-                <img *ngFor="let prenda of prendasSinUsar" [src]="prenda.imagen_url" class="img-thumbnail me-2 mb-2" width="60">
+                <img *ngFor="let prenda of prendasSinUsar" [src]="prenda.imagen_url" class="img-thumbnail me-2 mb-2" width="60"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalPrenda"
+                      (click)="openPrenda(prenda)">
+
                 <span *ngIf="prendasSinUsar.length == 0"><b>No hay datos aún.</b></span>
 
               </div>
@@ -81,6 +95,61 @@
         <h2 class="h4 mb-4">Planificacion de outfits</h2>
         
             <app-calendario></app-calendario>
+    </div>
+  </div>
+</div>
+
+<!-- Modales Lightbox -->
+
+<div class="modal fade" id="modalMasUsada" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark border-0">
+      <div class="modal-body p-0 position-relative">
+        <button type="button"
+                class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                data-bs-dismiss="modal"
+                aria-label="Cerrar"></button>
+        <img [src]="prendaMasUsada.prenda.imagen_url"
+             class="img-fluid"
+             alt="Prenda mas usada">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalMenosUsada" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark border-0">
+      <div class="modal-body p-0 position-relative">
+        <button type="button"
+                class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                data-bs-dismiss="modal"
+                aria-label="Cerrar"></button>
+        <img [src]="prendaMenosUsada.prenda.imagen_url"
+             class="img-fluid"
+             alt="Prenda menos usada">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para las prendas sin usar -->
+<div class="modal fade" id="modalPrenda" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark border-0">
+      <div class="modal-body p-0 position-relative">
+        <button
+          type="button"
+          class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar">
+        </button>
+        <img
+          [src]="prendaSeleccionada?.imagen_url"
+          class="img-fluid"
+          alt="Prenda sin usar ampliada"
+        >
+      </div>
     </div>
   </div>
 </div>

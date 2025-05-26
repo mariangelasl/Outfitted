@@ -5,6 +5,7 @@ import { DatosCalendariosService } from '../services/calendario/datos-calendario
 import { Modal } from 'bootstrap';
 import { Router } from '@angular/router';
 import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-outfit-list',
@@ -26,14 +27,18 @@ export class OutfitListComponent implements OnInit {
 
   //para agregar outfits al calendario
   outfitSeleccionado:any = null;
-  fechaInicio:string = '';
-  fechaFin:string = '';
   errorMessage:string ='';
+  formFechas!: FormGroup;
 
+  //para lightbox
+
+  lightboxImageUrl: string = '';
+  
   constructor(private outfitService: DatosOutfitsService,
               private calendarioService: DatosCalendariosService,
               private router: Router,
               private usuarioService: DatosUsuariosService,
+              private fb: FormBuilder,
 
   ){ }
 
@@ -48,6 +53,11 @@ export class OutfitListComponent implements OnInit {
       if(resp.body)
         this.outfits = resp.body;
     });
+
+    this.formFechas = this.fb.group({
+      fechaInicio: ['', Validators.required],
+      fechaFin: ['', Validators.required]
+    }, { validators: this.validarFechas() });
   }
 
   //abre el modal para confirmar la eliminacion
@@ -70,29 +80,35 @@ export class OutfitListComponent implements OnInit {
 
   abrirModalFechas(outfit: any): void {
     this.outfitSeleccionado = outfit;
-    this.fechaInicio = '';
-    this.fechaFin = '';
+    //this.fechaInicio = '';
+    //this.fechaFin = '';
+    this.formFechas.reset();
     this.errorMessage = '';
   }
 
+  validarFechas(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const inicio = group.get('fechaInicio')?.value;
+      const fin = group.get('fechaFin')?.value;
+      const hoy = new Date().toISOString().split('T')[0];
+
+      if (!inicio || !fin) return null;
+
+      if (inicio < hoy) return { fechaPasada: true };
+      if (fin < inicio) return { finAntesInicio: true };
+
+      return null;
+    };
+  }
+
   agendarOutfit(): void {
-    const hoy = new Date().toISOString().split('T')[0];
-  
-    //si no ha seleccionado alguna fecha
-    if (!this.fechaInicio || !this.fechaFin) {
-      this.errorMessage = 'Debes seleccionar ambas fechas.';
+    
+    if (this.formFechas.invalid) {
+      this.formFechas.markAllAsTouched();
       return;
     }
-  
-    if (this.fechaInicio < hoy) {
-      this.errorMessage = 'La fecha de inicio no puede ser anterior al dia de hoy.';
-      return;
-    }
-  
-    if (this.fechaFin < this.fechaInicio) {
-      this.errorMessage = 'La fecha de fin no puede ser anterior a la de inicio.';
-      return;
-    }
+
+    const { fechaInicio, fechaFin } = this.formFechas.value;
 
     //obtengo el usuario que crea el evento en el calendario
     const user = this.usuarioService.getUsuario();
@@ -105,8 +121,8 @@ export class OutfitListComponent implements OnInit {
     //recopilo la informacion del evento
     const evento = {
       outfit_id: this.outfitSeleccionado.id,
-      fechaInicio: this.fechaInicio,
-      fechaFin: this.fechaFin,
+      fechaInicio,
+      fechaFin,
       user_id: user.id,
     };
 
@@ -116,9 +132,9 @@ export class OutfitListComponent implements OnInit {
     this.calendarioService.createEvento(evento).subscribe({
       next: () => {
         this.errorMessage = '';
-        this.router.navigate(['welcome']);
-        
 
+      this.router.navigate(['welcome']);
+          
       },
       error: err => {
         this.errorMessage = 'Error al guardar el evento.';

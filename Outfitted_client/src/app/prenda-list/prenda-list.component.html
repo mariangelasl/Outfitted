@@ -86,9 +86,18 @@
                 <div class="col-md-5 d-flex flex-column align-items-center justify-content-center p-2">
 
                 <div class="ratio ratio-1x1 w-100 mb-2">
-                    <img [src]="prenda.imagen_url" 
+                  
+                  <img [src]="prenda.imagen_url" 
                           class="object-fit-cover rounded"
-                          alt="imagen de la prenda">
+                          alt="imagen de la prenda"
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#lightboxModal"
+                          (click) = "lightboxImageUrl = prenda.imagen_url">
+
+                    <!--<img [src]="prenda.imagen_url" 
+                          class="object-fit-cover rounded"
+                          alt="imagen de la prenda">-->
                 </div>
 
                 <div class="btn-group mt-auto" role="group">
@@ -123,6 +132,24 @@
         </div>
     </div>
  
+
+<!--modal para ver mas grande las imagenes de la prenda-->
+
+<div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark border-0">
+      <div class="modal-body p-0 position-relative">
+        <button type="button"
+                class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                data-bs-dismiss="modal"
+                aria-label="Cerrar"></button>
+        <img [src]="lightboxImageUrl"
+             class="img-fluid w-100"
+             alt="Imagen ampliada de prenda">
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--modal para confirmar que se quiere eliminar la prenda-->
 <div class="modal fade" id="eliminarPrendaModal" tabindex="-1" aria-hidden="true" aria-labelledby="eliminarPrendaLabel">

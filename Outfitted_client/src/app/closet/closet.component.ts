@@ -5,6 +5,7 @@ import { DatosPrendasService } from '../services/prenda/datos-prendas.service';
 import { DatosOutfitsService } from '../services/outfit/datos-outfits.service';
 import { CompartidoService } from '../services/compartido/compartido.service';
 import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -27,9 +28,10 @@ export class ClosetComponent implements OnInit{
 
   //para compartir closets
 
-  invitado:string='';
+  //invitado:string='';
   mensajeError:string='';
   mensajeExito:string='';
+  formCompartir!: FormGroup;
 
 
   //para redirigir al closet-list desde el calendario
@@ -45,6 +47,7 @@ export class ClosetComponent implements OnInit{
     private outfitService : DatosOutfitsService,
     private compartidoService: CompartidoService,
     private usuarioService : DatosUsuariosService,
+    private fb: FormBuilder,
   ) {}
 
 
@@ -65,6 +68,8 @@ export class ClosetComponent implements OnInit{
       }
     });
     
+
+    this.formCompartir = this.fb.group({correo:['', [Validators.required, Validators.email]]});
 
     this.userId = this.usuarioService.getUsuario().id;
 
@@ -128,22 +133,29 @@ export class ClosetComponent implements OnInit{
   //metodos para compartir closets
 
   abrirModalCompartir(): void {
-    this.invitado = '';
+    this.formCompartir.reset();
     this.mensajeError = '';
     this.mensajeExito = '';
   }
+
   
   compartirCloset(): void {
     
+    if (this.formCompartir.invalid) {
+    this.formCompartir.markAllAsTouched();
+    return;
+    }
+
     const datos = {
       closet_id: this.idCloset,
-      correo: this.invitado
+      correo: this.formCompartir.get('correo')?.value
     };
   
     this.compartidoService.compartirCloset(datos).subscribe({
       next: (resp) => {
         this.mensajeExito = resp.body?.mensaje || 'Closet compartido.';
         this.mensajeError = '';
+        document.getElementById("cerrarModal")?.click();
       },
       error: (err) => {
         this.mensajeError = err.error?.mensaje || 'No se pudo compartir el closet.';

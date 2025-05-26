@@ -144,13 +144,19 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header bg-primary">
+      <form [formGroup]="formCompartir" (ngSubmit)="compartirCloset()">
+      
+        <div class="modal-header bg-primary">
         <h5 class="modal-title">Compartir armario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="cerrarModal"></button>
       </div>
 
       <div class="modal-body">
-        <input type="text" class="form-control" [(ngModel)]="invitado" placeholder="Email del usuario invitado">
+        <input type="email" class="form-control" id="correo"
+        formControlName="correo" placeholder="Email del usuario invitado"
+        [class.is-invalid]="formCompartir.get('correo')?.invalid && formCompartir.touched">
+     
+        <div class="invalid-feedback">Debes introducir un correo válido.</div>
       </div>
 
       <!--para indicar si se pudo o no compartir-->
@@ -160,9 +166,11 @@
 
       <div class="modal-footer">
         <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-secondary" (click)="compartirCloset()" data-bs-dismiss="modal">Compartir</button>
+        <button class="btn btn-secondary" type="submit">
+          Compartir</button>
+          <!--[attr.data-bs-dismiss]="formCompartir.valid && mensajeExito ? 'modal' : null">-->
       </div>
-
+      </form>
     </div>
   </div>
 </div>

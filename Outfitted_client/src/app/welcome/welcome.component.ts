@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatosEstadisticasService } from '../services/estadistica/datos-estadisticas.service';
 import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
+import { IPrenda } from '../interfaces/iprenda';
 
 @Component({
   selector: 'app-welcome',
@@ -20,6 +21,9 @@ export class WelcomeComponent implements OnInit{
   outfitsSinUsar: any[] = [];
   prendasSinUsar: any[] = []; 
 
+  //lightbox
+
+  prendaSeleccionada?: IPrenda;
 
   constructor(private estadisticaService: DatosEstadisticasService,
               private usuarioService: DatosUsuariosService,
@@ -54,5 +58,11 @@ export class WelcomeComponent implements OnInit{
     this.estadisticaService.getPrendasSinUsar(id).subscribe(p => this.prendasSinUsar = p.slice(0, 5));
     }
     }
+  }
+
+  //para lightbox
+
+  openPrenda(prenda: any) {
+    this.prendaSeleccionada = prenda;
   }
 }

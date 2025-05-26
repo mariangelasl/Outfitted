@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { IPrenda } from '../interfaces/iprenda';
 import { DatosPrendasService } from '../services/prenda/datos-prendas.service';
 import { DatosOutfitsService } from '../services/outfit/datos-outfits.service';
@@ -18,10 +18,11 @@ import { DatosTemporadasService } from '../services/temporada/datos-temporadas.s
   styleUrl: './prenda-list.component.css'
 })
 
+
 export class PrendaListComponent implements OnInit{
 
   @Input() idCloset!: number;
-  
+
   idPrenda :number = 0;
   prendas: IPrenda[] = [];
   
@@ -43,6 +44,10 @@ export class PrendaListComponent implements OnInit{
   estilos: IEstilo[] = [];
   temporadas: ITemporada[] = [];
 
+
+  //para lightbox
+
+  lightboxImageUrl: string = '';
   
   constructor(private prendaService: DatosPrendasService,
               private outfitService: DatosOutfitsService,
@@ -53,6 +58,8 @@ export class PrendaListComponent implements OnInit{
               private router: Router,
 
   ){ }
+
+
 
   ngOnInit(): void {
     
@@ -116,6 +123,7 @@ export class PrendaListComponent implements OnInit{
       next: (data) => {
         // recargamos el componente
         this.ngOnInit();
+       
       }
     });
   }
@@ -217,6 +225,7 @@ export class PrendaListComponent implements OnInit{
       }
     });
     }
+
   }
 
   
