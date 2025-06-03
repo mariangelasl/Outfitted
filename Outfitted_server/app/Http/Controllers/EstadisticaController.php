@@ -72,6 +72,7 @@ class EstadisticaController extends Controller
         //los outfits cuyo id no este en los ids de outfits usados 
         $sinUsar = Outfit::whereNotIn('id', $usados)
                     ->whereIn('closet_id', $closetsUser)
+                    ->orderBy('created_at' , 'desc')
                     ->get(); 
 
         return $sinUsar;
@@ -85,7 +86,8 @@ class EstadisticaController extends Controller
         $usadas = DB::table('outfit_prenda')->pluck('prenda_id');
 
         $sinUsar = Prenda::where('user_id', $user_id)
-                ->whereNotIn('id', $usadas)->get();
+                ->whereNotIn('id', $usadas)
+                ->orderBy('created_at' , 'desc')->get();
 
         return $sinUsar;
     }

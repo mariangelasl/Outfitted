@@ -45,6 +45,7 @@ export class WelcomeComponent implements OnInit{
 
     this.estadisticaService.getPrendaMenosUsada(id).subscribe(resp =>{
      
+      if (resp)
       this.prendaMenosUsada = resp.body;
     });
 

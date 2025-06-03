@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IPrenda } from '../interfaces/iprenda';
 import { DatosPrendasService } from '../services/prenda/datos-prendas.service';
 import { DatosOutfitsService } from '../services/outfit/datos-outfits.service';
@@ -22,6 +22,9 @@ import { DatosTemporadasService } from '../services/temporada/datos-temporadas.s
 export class PrendaListComponent implements OnInit{
 
   @Input() idCloset!: number;
+
+  
+  @Output() outfitCreado = new EventEmitter<void>();
 
   idPrenda :number = 0;
   prendas: IPrenda[] = [];
@@ -122,8 +125,9 @@ export class PrendaListComponent implements OnInit{
     this.prendaService.deletePrenda(this.idPrenda).subscribe({
       next: (data) => {
         // recargamos el componente
+        this.outfitCreado.emit();
         this.ngOnInit();
-       
+        
       }
     });
   }
@@ -169,6 +173,10 @@ export class PrendaListComponent implements OnInit{
         //refresco la lista
 
         this.ngOnInit();
+        //this.recargarPrendas();
+
+        // ¡Emito el evento para que el padre sepa que se creó un outfit!
+        this.outfitCreado.emit();
 
       },
 

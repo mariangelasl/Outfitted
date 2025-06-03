@@ -25,21 +25,8 @@ class CompartidoController extends Controller
          return $closets;
      }
 
-     /*
-    function updateCompartido(Request $request, $id) {
-        
-        $compartido = Compartido::find($id);
-        $compartido->update($request->all());
-  
-        return $compartido;
-    }
-
-    function getCompartido($id){
-        $compartido = Compartido::find($id); 
-        return $compartido;
-    }
-    */
-
+    
+    //compartir un closet con un usuario
     function compartirCloset(Request $request){
         
         //recibo id del closet a compartir y el correo del invitado
@@ -75,11 +62,5 @@ class CompartidoController extends Controller
         return response()->json(['mensaje' => 'Closet compartido exitosamente.']);
     }
         
-    /*
-    function deleteCompartido($id){
-        $compartido = Compartido::find($id);
-        $compartido->delete();
-
-        return $compartido;
-    }*/
+    
 }

@@ -11,7 +11,6 @@ use App\Http\Controllers\EstiloController;
 use App\Http\Controllers\OutfitController;
 use App\Http\Controllers\PrendaController;
 use App\Http\Controllers\TemporadaController;
-use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistroController;
 
@@ -71,13 +70,6 @@ Route::get('/compartidos/{userid}', [CompartidoController::class, 'getCompartido
 Route::post('/compartido/create', [CompartidoController::class, 'compartirCloset']);
 
 
-Route::put('/compartido/{id}', [CompartidoController::class, 'updateCompartido']);
-
-Route::get('/compartido/{id}', [CompartidoController::class, 'getCompartido']);
-
-Route::delete('/compartido/{id}' , [CompartidoController::class, 'deleteCompartido']);
-
-
 //estadisticas
 
 Route::get('/estadistica/{id}', [EstadisticaController::class, 'getEstadistica']);
@@ -134,17 +126,3 @@ Route::delete('/prenda/{id}' , [PrendaController::class, 'deletePrenda']);
 Route::get('/temporadas', [TemporadaController::class, 'getTemporadas']);
 
 Route::get('/temporada/{id}', [TemporadaController::class, 'getTemporada']);
-
-
-
-//usuario
-
-Route::get('/usuarios', [UsuarioController::class, 'getUsuarios']);
-
-Route::put('/usuario/{id}', [UsuarioController::class, 'updateUsuario']);
-
-Route::get('/usuario/{id}', [UsuarioController::class, 'getUsuario']);
-
-Route::post('/usuario/create', [UsuarioController::class, 'createUsuario']);
-
-Route::delete('/usuario/{id}' , [UsuarioController::class, 'deleteUsuario']);

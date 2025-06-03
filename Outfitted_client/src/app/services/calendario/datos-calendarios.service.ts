@@ -11,12 +11,15 @@ export class DatosCalendariosService {
 
   constructor(private _http:HttpClient) { }
 
+  //obtener todos los eventos (uso de outfits) planificados para el mes indicado
+
   getEventosMes(usuarioId:number, mes: number, anyo: number): Observable<HttpResponse<any[]>> {
     
     return this._http.get<ICalendario[]>(environment.apiUrl + 'api/calendario/usuario/' + usuarioId + '/' + mes + '/' + anyo,    { observe: 'response' });
   
   }
   
+  //asignar un outfit al calendario
   createEvento(evento:any){
     return this._http.post<ICalendario>(environment.apiUrl + 'api/calendario/create',  evento,  { observe: 'response' });
   }

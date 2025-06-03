@@ -11,10 +11,12 @@ export class CompartidoService {
 
   constructor(private _http:HttpClient) { }
 
+  //compartir un closet con un usuario
   compartirCloset(datos: any): Observable<any> {
     return this._http.post(environment.apiUrl + 'api/compartido/create',  datos,  { observe: 'response' });
   }
 
+  //obtener los closets que han sido compartidos con ese usuario
   getCompartidos(id: number): Observable<HttpResponse<ICloset[]>> {
     return this._http.get<ICloset[]>(environment.apiUrl + 'api/compartidos/' + id,    { observe: 'response' });
 

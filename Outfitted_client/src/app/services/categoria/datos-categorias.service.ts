@@ -11,12 +11,14 @@ export class DatosCategoriasService {
 
   constructor(private _http:HttpClient) { }
 
+  //obtengo todas las categorias 
   public getCategorias(): Observable<HttpResponse<ICategoria[]>> {
     
     return this._http.get<ICategoria[]>(environment.apiUrl + 'api/categorias',    { observe: 'response' });
     
   }
 
+  //obtener una categoria por su id
   public getCategoria(id:any) {
     return this._http.get<ICategoria>(environment.apiUrl + 'api/categoria/' + id,    { observe: 'response' });
   }
