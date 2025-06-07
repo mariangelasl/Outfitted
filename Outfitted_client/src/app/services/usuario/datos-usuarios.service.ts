@@ -19,6 +19,7 @@ export class DatosUsuariosService {
   }
 
   public getToken(): string | null {
+    
     return localStorage.getItem('token');
   }
 

@@ -40,24 +40,6 @@ export class ClosetsListComponent implements OnInit{
       this.userId = usuario.id; 
       this.nombreUsuario = usuario.name;
 
-      /*
-      //Closets que pertenecen a ese usuario
-      this.closetService.getClosets(this.userId).subscribe(resp => {
-        if(resp.body) this.closetsPropios = resp.body;
-      });
-
-
-      //closets compartidos con este usuario
-
-      this.compartidoService.getCompartidos(this.userId).subscribe(resp => {
-        if(resp.body) this.closetsCompartidos = resp.body;
-      });
-
-      //todos los closets
-
-      this.closets = this.closetsPropios.concat(this.closetsCompartidos);
-    */
-
       this.closetService.getClosets(this.userId).subscribe(resp => {
       if (resp.body) {
         this.closetsPropios = resp.body;
@@ -89,12 +71,11 @@ export class ClosetsListComponent implements OnInit{
       this.closetService.createCloset(closet).subscribe(resp => {
         if (resp.body) {
           const idCloset = resp.body.id;
-          
+
           // Redirigir al view del nuevo closet
           this.router.navigate(['/closet', idCloset]);
         }
       });
-    //}
   }     
   
 }

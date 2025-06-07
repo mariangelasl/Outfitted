@@ -173,9 +173,9 @@ export class PrendaListComponent implements OnInit{
         //refresco la lista
 
         this.ngOnInit();
-        //this.recargarPrendas();
+        
 
-        // ¡Emito el evento para que el padre sepa que se creó un outfit!
+        //Emito el evento para que el padre sepa que se creó un outfit
         this.outfitCreado.emit();
 
       },

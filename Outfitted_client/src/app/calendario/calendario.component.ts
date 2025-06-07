@@ -40,7 +40,7 @@ export class CalendarioComponent implements OnInit {
     }
 
     //cargo los outfits
-    this.cargarEventos(); //mes actual
+    this.cargarEventos();
   }
 
   //carga y actualiza los eventos del mes que se esta mostrando

@@ -67,22 +67,19 @@ class CalendarioController extends Controller
 
     public function eventosMes($id, $mes, $anio){
 
+      
     //inicio y fin del mes
     $inicio = Carbon::create($anio, $mes, 1)->startOfMonth();
     $fin = Carbon::create($anio, $mes, 1)->endOfMonth();
 
-    $closetIds = Closet::where('user_id', $id)->pluck('id');
-
-    $outfitIds = Outfit::whereIn('closet_id', $closetIds)->pluck('id');
-
-    //todos los outfits del usuario cuya fechas de inicio este en ese mes
-    
+    //busco los outfits del usuario resgistrados en el calendario en ese mes
     $eventos = Calendario::with('outfit.closet')
-        ->whereIn('outfit_id', $outfitIds)
-        ->whereBetween('fechaInicio', [$inicio, $fin])
-        ->get();
+    ->where('user_id', $id)
+    ->whereBetween('fechaInicio', [$inicio, $fin])
+    ->get();
 
     return $eventos;
+    
     }
 
 }

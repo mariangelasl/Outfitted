@@ -12,7 +12,7 @@ class TemporadaSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        
         //DATOS TABLA TEMPORADAS
 
         DB::table('temporadas')->insert([

@@ -85,25 +85,9 @@ export class ClosetComponent implements OnInit{
     //obtengo cantidad de prendas y de outfits que hay en el armario
 
     this.cargarCantidades();
-
-    /*this.prendaService.getPrendas(this.idCloset).subscribe(resp => {
-
-      if (resp.body) {
-        this.cantidadPrendas = resp.body.length;
-      }
-
-    });
-
-    this.outfitService.getOutfits(this.idCloset).subscribe(resp => {
-
-      if (resp.body) {
-        this.cantidadOutfits = resp.body.length;
-      }
-
-    });*/
-
   
   }
+
 
   cargarCantidades(){
 
@@ -141,6 +125,7 @@ export class ClosetComponent implements OnInit{
           this.nombreCloset = resp.body.nombre;
         }
       });
+    
   }
 
   //elimina el closet y luego redirige al listado 

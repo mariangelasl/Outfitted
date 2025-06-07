@@ -43,7 +43,7 @@ class PrendaController extends Controller
         //si el usuario subió una nueva una imagen en el form
         if ($request->file('imagen')) {
 
-            //busco si ya la penda tenia imagen y la elimino
+            //busco si ya la prenda tenia imagen y la elimino
             if($prenda->imagen){
                 $imagenAnterior = public_path('uploads/' . $prenda->imagen);
                 if (file_exists($imagenAnterior)) {
@@ -111,7 +111,7 @@ class PrendaController extends Controller
         
         }
         
-        //ccreo la prenda con los datos validados
+        //creo la prenda con los datos validados
         $prenda = Prenda::create($validated);
         return $prenda;
         

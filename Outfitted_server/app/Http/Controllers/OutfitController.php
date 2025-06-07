@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Outfit;
+use App\Models\Calendario;
+
 
 class OutfitController extends Controller
 {
@@ -48,6 +50,7 @@ class OutfitController extends Controller
     }
 
 
+    //crear un outfit (combinando varias prendas)
     public function createOutfit(Request $request){
     
         $validated = $request->validate([
@@ -68,12 +71,16 @@ class OutfitController extends Controller
         return $outfit;
     }
 
-
+    //eliminar un outfit
     function deleteOutfit($id){
 
+        //busco el outfit por id
         $outfit = Outfit::find($id);
 
-        //elimina la relacion de las prendas con el outfit a eliminar (en la tabla outfit_prenda)
+        //elimino el outfit de calendario
+        Calendario::where('outfit_id', $id)->delete();
+
+        //elimina la relacion de las prendas con ese outfit (en la tabla outfit_prenda)
         $outfit->prendas()->detach();
 
         //elimina el outfit

@@ -4,8 +4,8 @@
     <a [routerLink]="['/closets-list']"
         class="text-secondary d-inline-block mb-3"
         aria-label="Volver a la lista de armarios">
-        &larr;Volver
-    </a>
+        &larr; Volver
+    </a> 
   
     <!-- Encabezado del closet -->
     <div class="d-flex align-items-center mb-3">
@@ -76,7 +76,7 @@
     <!-- Se visualiza el componente segun la tab seleccionada -->
     <div class="tab-content mt-4">
       <app-prenda-list *ngIf="vistaActual === 'prendas'" [idCloset]="idCloset" (outfitCreado) = "cargarCantidades()"></app-prenda-list>
-      <app-outfit-list *ngIf="vistaActual === 'outfits'" [idCloset]="idCloset" [filtroCalendario]="filtroOutfit"></app-outfit-list>
+      <app-outfit-list *ngIf="vistaActual === 'outfits'" [idCloset]="idCloset" (outfitEliminado) = "cargarCantidades()" [filtroCalendario]="filtroOutfit"></app-outfit-list>
     </div>
     
   </div>

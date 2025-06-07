@@ -30,7 +30,7 @@ const routes: Routes = [
   //closets
   {path:'closets-list', component: ClosetsListComponent, canActivate: [AuthGuard]},
   {path:'closet/:id', component: ClosetComponent, canActivate: [AuthGuard]},
-  //{path:'closet-create', component: ClosetCreateComponent, canActivate: [AuthGuard]},
+
 
   //prendas
   {path:'prenda-list', component: PrendaListComponent, canActivate: [AuthGuard]},

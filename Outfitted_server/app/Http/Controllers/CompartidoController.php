@@ -53,7 +53,7 @@ class CompartidoController extends Controller
             return response()->json(['mensaje' => 'Este closet ya fue compartido con este usuario.'], 409);
         }
     
-        //si es la primera ez que se comparte con ese correo y el user existe, registro los datos 
+        //si el user existe y es la primera vez que se le comparte el armario, registro los datos 
         Compartido::create([
             'closet_id' => $validated['closet_id'],
             'user_id' => $invitado->id

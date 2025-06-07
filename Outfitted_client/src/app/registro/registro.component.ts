@@ -61,7 +61,7 @@ export class RegistroComponent implements OnInit{
             this.errorMessage = 'Error al enviar el formulario';
           }
         });
-      },error: () => { //si ya exis
+      },error: () => { //si ya existe
             this.errorMessage = 'Este correo ya esta registrado';
           }
       });

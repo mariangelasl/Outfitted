@@ -12,7 +12,7 @@ class EstiloSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        
         //DATOS TABLA ESTILOS
 
         DB::table('estilos')->insert([

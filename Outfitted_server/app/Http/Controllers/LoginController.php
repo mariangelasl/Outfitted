@@ -47,6 +47,7 @@ class LoginController extends Controller
         return response()->json(['message' => 'Sesión cerrada exitosamente']); //notifico el cierre de sesion
     }
 
+    //verificar si ya hay un usuario registrado con ese correo
     public function esUsuario($correo){
         $usuario = User::where('email', $correo)->first();
 

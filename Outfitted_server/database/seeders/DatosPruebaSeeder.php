@@ -63,10 +63,10 @@ class DatosPruebaSeeder extends Seeder
 
         //creo algunas prendas en el closet 1
 
-        //las imagenes para los datos de prueba estan en la carpeta uploads
+        //las imagenes para los datos de prueba estan en la carpeta public/uploads
 
         $prenda1 = Prenda::create([
-            'imagen' => 'top.jpg',
+            'imagen' => 'top_rojo.jpg',
             'color' => 'rojo',
             'categoria_id' => 6,
             'temporada_id' => 2,
@@ -76,7 +76,7 @@ class DatosPruebaSeeder extends Seeder
         ]);
 
         $prenda2 = Prenda::create([
-            'imagen' => 'falda_jean.jpg',
+            'imagen' => 'falda_jean.png',
             'color' => 'azul',
             'categoria_id' => 4,
             'temporada_id' => 2,
@@ -86,7 +86,7 @@ class DatosPruebaSeeder extends Seeder
         ]);
 
         $prenda3 = Prenda::create([
-            'imagen' => 'zapato.avif',
+            'imagen' => 'zapatos_rojo.png',
             'color' => 'rojo',
             'categoria_id' => 7,
             'temporada_id' => 2,
@@ -140,7 +140,7 @@ class DatosPruebaSeeder extends Seeder
         //creo prendas y outfit closet2
 
         $prenda4 = Prenda::create([
-            'imagen' => 'camisa.jpg',
+            'imagen' => 'camisa_blanca.jpg',
             'color' => 'blanca',
             'categoria_id' => 6,
             'temporada_id' => 2,
@@ -150,7 +150,7 @@ class DatosPruebaSeeder extends Seeder
         ]);
 
         $prenda5 = Prenda::create([
-            'imagen' => 'pantalon.jpg',
+            'imagen' => 'pantalon_azul.png',
             'color' => 'azul oscuro',
             'categoria_id' => 2,
             'temporada_id' => 1,
@@ -160,7 +160,7 @@ class DatosPruebaSeeder extends Seeder
         ]);
 
         $prenda6 = Prenda::create([
-            'imagen' => 'zapatos_blancos.avif',
+            'imagen' => 'zapato_blanco.png',
             'color' => 'blancos con corazones',
             'categoria_id' => 7,
             'temporada_id' => 2,
@@ -184,7 +184,7 @@ class DatosPruebaSeeder extends Seeder
         //agregar el outfit al calendario
 
         Calendario::create([
-            'fechaInicio' => '2025-06-09', //poner el 9 de junio
+            'fechaInicio' => '2025-06-09',
             'fechaFin' => '2025-06-09',
             'user_id' => $usuario->id,
             'outfit_id' => $outfit2->id

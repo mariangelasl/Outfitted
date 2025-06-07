@@ -49,7 +49,7 @@ class EstadisticaController extends Controller
        return $estadistica;
     }
 
-    //color mas usado en predas
+    //color mas usado en prendas
     function getColor($user_id){
 
         $color = Estadistica::join('prendas', 'estadisticas.prenda_id', '=' , 'prendas.id')

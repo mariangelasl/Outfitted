@@ -3,13 +3,6 @@
 /*redefino los colores principales para adaptarlos a outfitted*/
 :root {
   --bs-primary:   #ccaff9ff;
-  /*--bs-secondary: #a2bfeeff;
-  --bs-secondary-rgb:162, 191, 238;
-  --bs-secondary: #88d2ffff;
-  --bs-secondary: #3984e1ff;
-  --bs-secondary: #418ae7ff;
-  --bs-secondary: #5398eaff;
-  --bs-secondary: #4f6dd5ff;*/
   --bs-secondary: #3c79b9ff;
   --bs-light: #fff7d7ff;
   --bs-primary-rgb: 204, 175, 249;
@@ -55,18 +48,18 @@
 /*html y body deben ocupar toda la altura */
 html, body {
   height: 100%;
-  margin: 0; /* elimina márgenes por defecto */
+  margin: 0; 
 }
 
 
 app-root {
   display: flex;
   flex-direction: column;
-  min-height: 100%; /* para que flex funcione a toda altura */
+  min-height: 100%;
 }
 
 app-root > .container {
-  flex: 1 0 auto; /* crece y empuja el footer hacia abajo */
+  flex: 1 0 auto; 
 }
 
 app-footer {

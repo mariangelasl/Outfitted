@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatosOutfitsService } from '../services/outfit/datos-outfits.service';
 import { IOutfit } from '../interfaces/ioutfit';
 import { DatosCalendariosService } from '../services/calendario/datos-calendarios.service';
-import { Modal } from 'bootstrap';
 import { Router } from '@angular/router';
 import { DatosUsuariosService } from '../services/usuario/datos-usuarios.service';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -16,6 +15,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 export class OutfitListComponent implements OnInit {
 
   @Input() idCloset!: number; //se lo paso desde el componente incrustado en el closet view
+
+  @Output() outfitEliminado = new EventEmitter<void>();
 
   //si vengo al listado de outfits al seleccionar un evento en el calendario
   @Input() filtroCalendario: string = '';
@@ -70,6 +71,7 @@ export class OutfitListComponent implements OnInit {
     this.outfitService.deleteOutfit(this.idOutfit).subscribe({
       next: (data) => {
 
+        this.outfitEliminado.emit(); //avisamos que se elimino un outfit para recargar las cantidades del closet
         // recargamos el listado luego de eliminar el outfit
         this.ngOnInit();
       }
@@ -80,8 +82,6 @@ export class OutfitListComponent implements OnInit {
 
   abrirModalFechas(outfit: any): void {
     this.outfitSeleccionado = outfit;
-    //this.fechaInicio = '';
-    //this.fechaFin = '';
     this.formFechas.reset();
     this.errorMessage = '';
   }
@@ -126,7 +126,7 @@ export class OutfitListComponent implements OnInit {
       user_id: user.id,
     };
 
-
+    console.log(evento);
     //crea el outfit y redirige a la vista con el calendario
     
     this.calendarioService.createEvento(evento).subscribe({
