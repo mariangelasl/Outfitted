@@ -126,7 +126,6 @@ export class OutfitListComponent implements OnInit {
       user_id: user.id,
     };
 
-    console.log(evento);
     //crea el outfit y redirige a la vista con el calendario
     
     this.calendarioService.createEvento(evento).subscribe({
